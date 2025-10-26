@@ -4,7 +4,14 @@ import Field from './components/Field.vue'
 
 <template>
   <div class="w-full h-full">
-    <Field/>
+    <p><strong>Current route path:</strong> {{ $route.fullPath }}</p>
+    <nav>
+      <RouterLink to="/">Home</RouterLink>
+      <RouterLink to="/game">Game</RouterLink>
+    </nav>
+    <main>
+      <RouterView />
+    </main>
   </div>
 </template>
 
