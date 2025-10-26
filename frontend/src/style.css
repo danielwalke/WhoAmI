@@ -3,5 +3,5 @@
 @tailwind utilities;
 
 #app {
-  @apply w-screen p-2;
+  @apply w-screen h-screen;
 }

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="p-4">
     <div
       :class="[
         'drop-zone border-2 border-dashed border-gray-300 rounded-lg p-10 text-center text-gray-500 cursor-pointer transition-colors duration-300',
@@ -39,14 +39,14 @@
           >
             <img
               :src="image.url"
-              :alt="image.name"
+              :alt="image.title"
               class="max-w-full max-h-full object-contain"
             />
           </div>
           <div class="p-3 flex items-center gap-3 bg-white border-t">
             <input
               type="text"
-              v-model="image.name"
+              v-model="image.title"
               class="flex-1 w-full p-2 border border-gray-300 rounded focus:ring-blue-500 focus:border-blue-500"
               placeholder="Image name"
             />
@@ -96,7 +96,7 @@ import { ref, computed } from 'vue'
 import { useFieldStore } from '@/stores/fieldStore'
 
 const fieldStore = useFieldStore()
-const images = ref([])
+const images = computed(() => fieldStore.getCards)
 const fileInput = ref(null)
 const isDragging = ref(false)
 const currentIndex = ref(0)
@@ -113,12 +113,10 @@ const processFiles = (files) => {
     if (file.type.startsWith('image/')) {
       const id = crypto.randomUUID()
       const url = URL.createObjectURL(file)
-      const name = getBaseName(file.name)
+      const title = getBaseName(file.name)
 
-      const newImage = { id, url, name }
-      images.value.push(newImage)
-      const newImageObj = { id:id, url: url, title: name, isActive: true}
-      fieldStore.addCard(newImageObj)
+      const newImage = { id, url, title, isActive: true }
+      fieldStore.addCard(newImage)
     }
   }
 }
