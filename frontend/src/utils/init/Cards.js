@@ -1,33 +1,23 @@
-const titles = [
-  "Monkey D. Luffy",
-  "Roronoa Zoro",
-  "Nami",
-  "Usopp",
-  "Sanji",
-  "Tony Tony Chopper",
-  "Nico Robin",
-  "Franky",
-  "Brook",
-  "Jinbe",
-  "Portgas D. Ace",
-  "Gol D. Roger",
-  "Shanks",
-  "Buggy",
-  "Dracule Mihawk",
-  "Boa Hancock",
-  "Trafalgar D. Water Law",
-  "Eustass Kid",
-  "Donquixote Doflamingo",
-  "Crocodile",
-  "Marshall D. Teach",
-  "Sabo",
-  "Kaido",
-  "Big Mom"
-];
+function loadImages() {
+  const folder = '@/assets/default_cards/';
+  const names = [
+    'Alex','Amy','Anna','Ben','Dan','Emma','Eva','Jack','Joe','John','Julia',
+    'Leo','Lisa','Mark','Mary','Max','Mia','Nina','Paul','Sam','Sara','Sofia','Tim','Tom'
+  ];
+  const images =  names.map((name, i) => ({
+    id: i + 1,
+    title: `${name}`,
+    url: new URL(`../../assets/default_cards/${name}.png`, import.meta.url).href
+  }));
+  console.log(images);
+  
+  return images;
+}
 
-export const cards = titles.map((title, index) => ({
-  id: index,
-  title: title,
+
+export const cards = loadImages().map(image => ({
+  id: image.id,
+  title: image.title,
+  url: image.url,
   isActive: true,
-  isHidden: false,
 }));
