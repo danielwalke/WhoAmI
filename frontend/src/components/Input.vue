@@ -93,7 +93,7 @@
 
 <script setup>
 import { ref, computed } from 'vue'
-import { useFieldStore } from '@/stores/fieldStore'
+import { useFieldStore } from '@/stores/FieldStore.js'
 
 const fieldStore = useFieldStore()
 const images = computed(() => fieldStore.getCards)
