@@ -1,11 +1,12 @@
 <template>
     <div
-        class="grid grid-cols-6 gap-8"
+        class="grid grid-cols-6 gap-x-8 gap-y-4"
         >
         <template v-for="card in cards" :key="card.idx">
             <Card
+            @click="() => changeState(card.idx)"
             class="w-full"
-            :title="card.title"
+            :card="card"
             />
         </template>
     </div>
@@ -19,7 +20,13 @@ import { computed } from 'vue'
 
 const fieldStore = useFieldStore()
 const cards = computed(() => fieldStore.getCards)
+console.log(cards.value);
 
+function changeState(cardIdx){
+    console.log(cardIdx);
+    
+    fieldStore.changeCardState(cardIdx)    
+}
 </script>
 
 <style scoped>

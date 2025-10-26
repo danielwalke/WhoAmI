@@ -26,7 +26,7 @@ const titles = [
 ];
 
 export const cards = titles.map((title, index) => ({
-  idx: index + 1,
+  idx: index,
   title: title,
   isActive: true,
   isHidden: false,

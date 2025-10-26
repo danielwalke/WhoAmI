@@ -7,8 +7,8 @@ export const useFieldStore = defineStore('field', {
     getCards: (state) => state.cards,
   },
   actions: {
-    changeCardState(cardIdx, newState) {
-      this.cards[cardIdx].isActive = newState
+    changeCardState(cardIdx) {
+      this.cards[cardIdx].isActive = !this.cards[cardIdx].isActive
     },
 }
 })
