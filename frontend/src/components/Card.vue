@@ -10,7 +10,9 @@
 
             <div class="card-face card-back">
                 <div class="active-card-content">
-                    <div class="image">Image Placeholder</div>
+                    <div class="image">
+                        <img :src="card.url" alt="Card Image" class="w-full h-full object-contain rounded-md"/>
+                    </div>
                     <div class="title">{{ card.title }}</div>
                 </div>
             </div>

@@ -2,9 +2,9 @@
     <div
         class="grid grid-cols-6 gap-x-8 gap-y-4"
         >
-        <template v-for="card in cards" :key="card.idx">
+        <template v-for="card in cards" :key="card.id">
             <Card
-            @click="() => changeState(card.idx)"
+            @click="() => changeState(card.id)"
             class="w-full"
             :card="card"
             />
@@ -22,10 +22,10 @@ const fieldStore = useFieldStore()
 const cards = computed(() => fieldStore.getCards)
 console.log(cards.value);
 
-function changeState(cardIdx){
-    console.log(cardIdx);
+function changeState(cardId){
+    console.log(cardId);
     
-    fieldStore.changeCardState(cardIdx)    
+    fieldStore.changeCardState(cardId)    
 }
 </script>
 
