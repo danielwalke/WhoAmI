@@ -1,14 +1,11 @@
 <script setup>
-import HelloWorld from './components/HelloWorld.vue'
+import Field from './components/Field.vue'
 </script>
 
 <template>
   <div>
-    <a href="https://vitejs.dev" target="_blank">
-      <img src="/vite.svg" class="logo" alt="Vite logo" />
-    </a>
+    <Field/>
   </div>
-  <HelloWorld msg="Vite + Vue" />
 </template>
 
 <style scoped>

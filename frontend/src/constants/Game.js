@@ -1,0 +1,1 @@
+export const FIELD_SIZE = (6, 4) // Width, Height of the game field
