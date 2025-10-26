@@ -3,7 +3,7 @@ import Field from './components/Field.vue'
 </script>
 
 <template>
-  <div>
+  <div class="w-full h-full">
     <Field/>
   </div>
 </template>

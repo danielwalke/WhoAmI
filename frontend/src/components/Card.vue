@@ -1,11 +1,17 @@
 <template>
     <div class="card">
         <div class="image">Image Placeholder</div>
-        <div class="title">Title Placeholder</div>
+        <div class="title">{{title}}</div>
     </div>
 </template>
 
 <script setup>
+defineProps({
+    title: {
+        type: String,
+        required: true
+    }
+})
 </script>
 
 <style scoped>
