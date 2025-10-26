@@ -5,27 +5,23 @@ import Field from './components/Field.vue'
 <template>
   <div class="w-full h-full">
     <p><strong>Current route path:</strong> {{ $route.fullPath }}</p>
+    
+    <main>
+      <RouterView />
+    </main>
     <nav>
       <RouterLink to="/">Home</RouterLink>
       <RouterLink to="/game">Game</RouterLink>
     </nav>
-    <main>
-      <RouterView />
-    </main>
   </div>
 </template>
 
 <style scoped>
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
+nav {
+  @apply fixed bottom-0 left-0 w-full bg-gray-200 p-4 border-t flex justify-center items-center gap-16;
 }
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.vue:hover {
-  filter: drop-shadow(0 0 2em #42b883aa);
+
+nav a {
+  @apply font-semibold text-lg cursor-pointer hover:scale-105 transition-transform ease-in-out; 
 }
 </style>
