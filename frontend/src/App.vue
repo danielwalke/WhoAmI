@@ -11,6 +11,8 @@ import Field from './components/Field.vue'
       <RouterLink to="/">Home</RouterLink>
       <RouterLink to="/input">Input</RouterLink>
       <RouterLink to="/game">Game</RouterLink>
+      <RouterLink to="/room">Room</RouterLink>
+      <RouterLink to="/chat">Chat</RouterLink>
     </nav>
   </div>
 </template>
