@@ -4,11 +4,20 @@ import { SERVER_URL, WEBSOCKET_URL } from '../constants/Server'
 import axios from 'axios'
 
 export const useRoomStore = defineStore('room', {
-  state: () => ({ rooms: [], connection: undefined, messages: [], joinedRoom: undefined }),
+  state: () => ({ rooms: [], connection: undefined, messages: [], joinedRoom: undefined, clientId: 0 }),
   getters: {
     getRooms: (state) => state.rooms,
     getConnection: (state) => state.connection,
     getJoinedRoom: (state) => state.joinedRoom,
+    getClientCount: (state) => {
+      const clientIds = new Set();
+      state.messages.forEach(msg => {
+        if (msg.clientId !== undefined) {
+          clientIds.add(msg.clientId);
+        } });
+      return clientIds.size;
+    },
+    getClientId: (state) => state.clientId
   },
   actions: {
     addRoom(roomName, roomPassword) {
@@ -19,7 +28,6 @@ export const useRoomStore = defineStore('room', {
       console.log('Creating room with data:', data)
       axios.post(`${SERVER_URL}/${SERVER_PREFIX}/create_room`, data).then(response => {
         console.log('Room created:', response.data)
-        // this.rooms.push(roomName)
         this.fetchRooms();
       }).catch(error => {
         console.error('Error creating room:', error)
@@ -27,17 +35,19 @@ export const useRoomStore = defineStore('room', {
     },
     joinRoom(roomName, roomPassword){
       //TODO password verification
-      const clientId = Math.floor(Math.random() * 1000000);
-      const wsUrl = `${WEBSOCKET_URL}/${roomName}/${clientId}`;
+      this.clientId = Math.floor(Math.random() * 1000000);
+      const wsUrl = `${WEBSOCKET_URL}/${roomName}/${this.clientId}`;
       this.connection = new WebSocket(wsUrl);
       this.joinedRoom = roomName;
 
       this.connection.onopen = (event) => {
-        console.log(`Successfully connected ${clientId} to WebSocket server`);
+        console.log(`Successfully connected ${this.clientId} to WebSocket server`);
       };
 
       this.connection.onmessage = (event) => {
-        this.messages.push(event.data);
+        const data = JSON.parse(event.data);
+        console.log('Message received from server:', data);
+        this.messages.push(data);
       };
 
       this.connection.onclose = (event) => {

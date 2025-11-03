@@ -3,6 +3,8 @@ from fastapi import FastAPI, WebSocket, WebSocketDisconnect, APIRouter, Request
 from meta.RoomCreation import RoomCreation
 from connection_management.ConnectionManager import ConnectionManager
 from fastapi.middleware.cors import CORSMiddleware
+import json
+
 
 app = FastAPI(redirect_slashes=False)
 manager = ConnectionManager()
@@ -50,8 +52,12 @@ async def websocket_endpoint(websocket: WebSocket, room_id:str, client_id: int):
     try:
         while True:
             data = await websocket.receive_text()
+            message_payload = {
+                "clientId": client_id,
+                "message": data
+            }
             # await manager.send_personal_message(f"You wrote: {data}", websocket)
-            await manager.broadcast(room_id, f"Client #{client_id} says: {data}")
+            await manager.broadcast(room_id, json.dumps(message_payload))
     except WebSocketDisconnect:
         manager.disconnect(room_id, websocket)
         await manager.broadcast(room_id, f"Client #{client_id} left the chat")

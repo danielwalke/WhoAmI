@@ -1,26 +1,35 @@
 <template>
-  <div class="flex flex-col h-full bg-black/90">
-    <div class="flex-1 overflow-y-auto">
-        <div class="flex flex-col gap-2 p-4">
-        <div v-for="(msg_obj, index) in message_obj" :key="index" class="shadow-sm flex flex-col rounded-md p-2" :class="msg_obj['clientId'] === clientId ? 'items-end bg-green-700/60' : 'items-start bg-gray-800'">
-          <span class="text-lg" v-if="msg_obj['clientId'] !== clientId" :style="{ color: clientColors[msg_obj['clientId'] % clientColors.length] }">
+  <div class="w-full flex flex-col bg-black/70">
+    
+    <div class="basis-11/12 overflow-y-auto">
+      <div class=" max-h-full">
+        <div class="bg-green-600 h-96">Test</div>
+        <div class="bg-green-600 h-96">Test</div>
+        <div class="bg-green-600 h-96">Test</div>
+        <div class="bg-green-600 h-96">Test</div>
+      </div>
+      
+      <!-- <div class="flex flex-col gap-2 p-4">
+        <div v-for="(msg_obj, index) in message_obj" :key="index" class="shadow-sm flex flex-col rounded-md p-2" :class="msg_obj['clientId'] === clientId ? 'items-end bg-green-700/60' : 'items-start bg-gray-800/80'">
+          <span v-if="msg_obj['clientId'] !== clientId" :style="{ color: clientColors[msg_obj['clientId'] % clientColors.length] }">
             {{ msg_obj["clientId"] }}:
           </span>
-          <div class="text-white font-semibold rounded-md text-xl">
+          <div class="text-white font-semibold rounded-md">
             {{ msg_obj["message"] }}
           </div>
         </div>
-      </div>
+      </div> -->
     </div>
 
-    <div class="h-16 flex w-full bg-black/20 items-center border-t-gray-200 border-gray-700 flex-shrink-0 p-2 rounded-lg">
+    <div class="basis-1/12 flex w-full bg-gray-600 items-center border-t-2 border-t-gray-600 rounded-lg flex-shrink-0">
       <form @submit.prevent="sendMessage" class="w-full flex gap-2">
-        <input class="p-4 rounded-md w-4/5 text-white bg-gray-800 active:border-none border-none" v-model="newMessage" placeholder="Message" />
-        <button type="submit" class="p-2 flex-1 font-semibold text-white hover:scale-110" >
+        <input class="p-4 rounded-md w-4/5 text-white bg-gray-600 active:border-none border-none" v-model="newMessage" placeholder="Message" />
+        <button type="submit" class="p-2 flex-1 font-semibold text-white" >
           <div>Send</div>
         </button>
       </form>
     </div>
+
   </div>
 </template>
 

@@ -1,28 +1,25 @@
-<script setup>
-import Field from './components/Field.vue'
-</script>
-
 <template>
-  <div class="w-full h-full">
-    <main>
+  <div class="flex flex-col h-screen w-full">
+    <main class="flex-1 overflow-hidden">
       <RouterView />
     </main>
-    <nav>
+
+    <footer class="h-16 w-full  ">
       <RouterLink to="/">Home</RouterLink>
       <RouterLink to="/input">Input</RouterLink>
       <RouterLink to="/game">Game</RouterLink>
       <RouterLink to="/room">Room</RouterLink>
       <RouterLink to="/chat">Chat</RouterLink>
-    </nav>
+    </footer>
   </div>
 </template>
 
 <style scoped>
-nav {
-  @apply fixed bottom-0 left-0 w-full bg-gray-200 p-4 border-t flex justify-center items-center gap-16;
+footer {
+  @apply w-full bg-black/90 p-4 flex justify-center items-center gap-16;
 }
 
-nav a {
-  @apply font-semibold text-lg cursor-pointer hover:scale-105 transition-transform ease-in-out; 
+footer a {
+  @apply font-semibold text-lg cursor-pointer hover:scale-110 transition-transform ease-in-out text-white; 
 }
 </style>
