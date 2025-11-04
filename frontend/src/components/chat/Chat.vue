@@ -1,14 +1,15 @@
 <template>
-  <div class="flex flex-col h-full bg-black/90">
+  <div class="flex flex-col h-full bg-black/90 lg:p-4">
     <div class="flex-1 overflow-y-auto">
         <div class="flex flex-col gap-2 p-4">
-        <div v-for="(msg_obj, index) in message_obj" :key="index" class="shadow-sm flex flex-col rounded-md p-2" :class="msg_obj['clientId'] === clientId ? 'items-end bg-green-700/60' : 'items-start bg-gray-800'">
-          <span class="text-lg" v-if="msg_obj['clientId'] !== clientId" :style="{ color: clientColors[msg_obj['clientId'] % clientColors.length] }">
-            {{ msg_obj["clientId"] }}:
-          </span>
-          <div class="text-white font-semibold rounded-md text-xl">
-            {{ msg_obj["message"] }}
-          </div>
+        <div v-for="(msg_obj, index) in message_obj" :key="index" class="shadow-sm flex flex-col rounded-md p-2 w-4/5 lg:w-2/3" :class="msg_obj['clientId'] === clientId ? 'items-end bg-green-700/60 self-end' : 'items-start bg-gray-800 self-start'">
+            <span class="text-lg" v-if="msg_obj['clientId'] !== clientId" :style="{ color: clientColors[msg_obj['clientId'] % clientColors.length] }">
+             {{ msg_obj["clientId"] }}:
+            </span>
+            <div class="text-white font-semibold rounded-md text-xl">
+              {{ msg_obj["message"] }}
+            </div>
+          
         </div>
       </div>
     </div>

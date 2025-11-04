@@ -5,7 +5,7 @@
             <Autocomplete :items="rooms" :onSubmit="submitRoom" key_field="name"/>
             <input
                 class="border-2 p-2 rounded-md"
-                v-if="roomName"
+                v-if="roomId"
                 type="password"
                 v-model="roomPassword"
                 placeholder="Room Password"

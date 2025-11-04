@@ -35,15 +35,15 @@ export const useRoomStore = defineStore('room', {
       })    
     },
     async joinRoom(roomId, roomPassword){
-      //TODO password verification
       this.clientId = Math.floor(Math.random() * 1000000);
       const wsUrl = `${WEBSOCKET_URL}/${roomId}/${roomPassword}/${this.clientId}`;
       this.connection = new WebSocket(wsUrl);
       try{
-          const resp = await axios.get(`${SERVER_URL}/${SERVER_PREFIX}/room/${roomId}`)
+          const resp = await axios.get(`${SERVER_URL}/${SERVER_PREFIX}/room/${roomId}/${roomPassword}`)
           this.joinedRoom = resp.data;
       }catch(error){
           console.error('Error joining room:', error)
+          alert('Error joining room: ' + error.response.data["detail"]);
       }
       
 
