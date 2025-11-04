@@ -74,9 +74,11 @@ def get_rooms(session: SessionDep) -> list[Room]:
         room.password = "hidden"
     return rooms
 
-@router.get("/room/{room_id}", response_model=Room)
-def get_room(session: SessionDep, room_id) -> Room:
+@router.get("/room/{room_id}/{room_password}", response_model=Room)
+def get_room(session: SessionDep, room_id, room_password) -> Room:
     room = session.get(Room, room_id)
+    if not bcrypt.checkpw(room_password.encode('utf-8'), room.password):
+        raise HTTPException(status_code=401, detail="Incorrect password")
     if room is None:
         raise HTTPException(status_code=404, detail=f"Room with ID {room_id} not found")
     room.password = "hidden"
