@@ -34,9 +34,10 @@ export const useRoomStore = defineStore('room', {
         console.error('Error creating room:', error)
       })    
     },
-    async joinRoom(roomId, roomPassword){
-      this.clientId = Math.floor(Math.random() * 1000000);
-      const wsUrl = `${WEBSOCKET_URL}/${roomId}/${roomPassword}/${this.clientId}`;
+    async joinRoom(roomId, roomPassword, clientName){
+      this.clientId = crypto.randomUUID();
+      const wsUrl = `${WEBSOCKET_URL}/${roomId}/${roomPassword}/${this.clientId}/${clientName}`;
+      console.log('Connecting to WebSocket URL:', wsUrl);
       this.connection = new WebSocket(wsUrl);
       try{
           const resp = await axios.get(`${SERVER_URL}/${SERVER_PREFIX}/room/${roomId}/${roomPassword}`)

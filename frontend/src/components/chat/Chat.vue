@@ -3,8 +3,9 @@
     <div class="flex-1 overflow-y-auto">
         <div class="flex flex-col gap-2 p-4">
         <div v-for="(msg_obj, index) in message_obj" :key="index" class="shadow-sm flex flex-col rounded-md p-2 w-4/5 lg:w-2/3" :class="msg_obj['clientId'] === clientId ? 'items-end bg-green-700/60 self-end' : 'items-start bg-gray-800 self-start'">
-            <span class="text-lg" v-if="msg_obj['clientId'] !== clientId" :style="{ color: clientColors[msg_obj['clientId'] % clientColors.length] }">
-             {{ msg_obj["clientId"] }}:
+            <span class="text-lg" >
+             <span :style="{ color: clientColorsMap[msg_obj['clientId']] }" v-if="msg_obj['clientId'] !== clientId">{{ msg_obj["clientName"] }}</span>
+             <span class="text-white" v-else>You</span>
             </span>
             <div class="text-white font-semibold rounded-md text-xl">
               {{ msg_obj["message"] }}
@@ -35,6 +36,23 @@ const clientId = computed(() => roomStore.getClientId);
 const newMessage = ref('');
 const connection = computed(() => roomStore.connection);
 const clientColors = computed(() => generateClientColors(roomStore.getClientCount));
+const clientColorsMap = computed(() => {
+  const clientIds = new Set();
+      message_obj.value.forEach(msg => {
+        if (msg.clientId !== undefined) {
+          clientIds.add(msg.clientId);
+        } });
+
+  const clientColorsObj = {}  
+  const ids = Array.from(clientIds);
+  for(const id of ids){
+    const index = ids.indexOf(id);
+    clientColorsObj[id] = clientColors.value[index];
+  }
+  return clientColorsObj;
+});
+
+
 
 
 const sendMessage = () => {

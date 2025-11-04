@@ -84,13 +84,10 @@ def get_room(session: SessionDep, room_id, room_password) -> Room:
     room.password = "hidden"
     return room
 
-@router.websocket("/ws/{room_id}/{room_password}/{client_id}")
-async def websocket_endpoint(websocket: WebSocket, room_id:str, room_password:str, client_id: int, session: SessionDep):
-    print(f"Client #{client_id} connected to room {room_id}")
-    print(room_password)
-    print(room_id)
+@router.websocket("/ws/{room_id}/{room_password}/{client_id}/{client_name}")
+async def websocket_endpoint(websocket: WebSocket, room_id:str, room_password:str, client_id: str, client_name:str, session: SessionDep):
+    print(f"Client #{client_id} ({client_name}) connected to room {room_id}")
     room = session.get(Room, room_id)
-    print(room)
     
     if not room:
         raise HTTPException(status_code=404, detail="Room not found")
@@ -105,7 +102,8 @@ async def websocket_endpoint(websocket: WebSocket, room_id:str, room_password:st
             data = await websocket.receive_text()
             message_payload = {
                 "clientId": client_id,
-                "message": data
+                "message": data,
+                "clientName": client_name
             }
             # await manager.send_personal_message(f"You wrote: {data}", websocket)
             await manager.broadcast(room_id, json.dumps(message_payload))

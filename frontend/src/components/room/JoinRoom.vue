@@ -6,6 +6,13 @@
             <input
                 class="border-2 p-2 rounded-md"
                 v-if="roomId"
+                type="text"
+                v-model="clientName"
+                placeholder="Username"
+            />
+            <input
+                class="border-2 p-2 rounded-md"
+                v-if="roomId"
                 type="password"
                 v-model="roomPassword"
                 placeholder="Room Password"
@@ -27,6 +34,7 @@ const rooms = computed(() => roomStore.rooms);
 
 const roomPassword = ref("test");
 const roomId = ref(undefined);
+const clientName = ref("Peter");
 const router = useRouter();
 
 function submitRoom(submittedRoom) {
@@ -40,7 +48,7 @@ async function joinRoom(event) {
         alert("Please select a room.");
         return;
     }
-    await roomStore.joinRoom(roomId.value, roomPassword.value);
+    await roomStore.joinRoom(roomId.value, roomPassword.value, clientName.value);
     router.push('/chat');
 }
 
