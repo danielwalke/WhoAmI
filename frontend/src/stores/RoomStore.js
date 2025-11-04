@@ -22,8 +22,9 @@ export const useRoomStore = defineStore('room', {
   actions: {
     addRoom(roomName, roomPassword) {
       const data = {
-        room_name: roomName,
-        room_password: roomPassword
+        id: crypto.randomUUID(),
+        name: roomName,
+        password: roomPassword
       }
       console.log('Creating room with data:', data)
       axios.post(`${SERVER_URL}/${SERVER_PREFIX}/create_room`, data).then(response => {
@@ -33,12 +34,18 @@ export const useRoomStore = defineStore('room', {
         console.error('Error creating room:', error)
       })    
     },
-    joinRoom(roomName, roomPassword){
+    async joinRoom(roomId, roomPassword){
       //TODO password verification
       this.clientId = Math.floor(Math.random() * 1000000);
-      const wsUrl = `${WEBSOCKET_URL}/${roomName}/${this.clientId}`;
+      const wsUrl = `${WEBSOCKET_URL}/${roomId}/${roomPassword}/${this.clientId}`;
       this.connection = new WebSocket(wsUrl);
-      this.joinedRoom = roomName;
+      try{
+          const resp = await axios.get(`${SERVER_URL}/${SERVER_PREFIX}/room/${roomId}`)
+          this.joinedRoom = resp.data;
+      }catch(error){
+          console.error('Error joining room:', error)
+      }
+      
 
       this.connection.onopen = (event) => {
         console.log(`Successfully connected ${this.clientId} to WebSocket server`);
@@ -70,7 +77,7 @@ export const useRoomStore = defineStore('room', {
         const fetched_rooms = response.data;
         console.log(fetched_rooms)
         if (fetched_rooms === undefined) return;
-        this.rooms = fetched_rooms;
+        this.rooms = fetched_rooms
 
       }).catch(error => {
         console.error('Error fetching rooms:', error);

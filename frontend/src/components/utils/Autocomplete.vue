@@ -4,7 +4,7 @@
       v-if="selectedItem"
       class="w-full px-4 py-2 bg-gray-50 border border-gray-300 rounded-lg flex justify-between items-center text-gray-900"
     >
-      <span>{{ selectedItem }}</span>
+      <span>{{ selectedItem.name }}</span>
       <button
         @click="clearSelection"
         type="button"
@@ -41,11 +41,11 @@
         <ul>
           <li
             v-for="item in filteredItems"
-            :key="item"
+            :key="item.id"
             @mousedown.prevent="selectItem(item)"
             class="px-4 py-2 cursor-pointer hover:bg-gray-100 text-gray-800"
           >
-            {{ item }}
+            {{ item.name }}
           </li>
         </ul>
       </div>
@@ -65,6 +65,10 @@ const props = defineProps({
     type: Function,
     required: true,
   },
+  key_field: {
+    type: String,
+    required: true,
+  },
 });
 
 const query = ref('');
@@ -75,7 +79,7 @@ const filteredItems = computed(() => {
     return [];
   }
   return props.items.filter(item =>
-    item.toLowerCase().includes(query.value.toLowerCase())
+    item.name.toLowerCase().includes(query.value.toLowerCase())
   );
 });
 

@@ -4,3 +4,6 @@
 # Environment variable files
 .env
 .env.*
+
+
+database/database.db

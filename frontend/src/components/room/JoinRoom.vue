@@ -2,7 +2,7 @@
     <div class="join-room">
         <form class="flex flex-col p-2 gap-2">
             <label for="room">Room Name:</label>
-            <Autocomplete :items="roomNames" :onSubmit="submitRoom"/>
+            <Autocomplete :items="rooms" :onSubmit="submitRoom" key_field="name"/>
             <input
                 class="border-2 p-2 rounded-md"
                 v-if="roomName"
@@ -19,26 +19,29 @@
 import { computed, ref } from 'vue';
 import Autocomplete from '../utils/Autocomplete.vue';
 import { useRoomStore } from '../../stores/roomStore';
+import { useRouter } from 'vue-router';
 
 const roomStore = useRoomStore();
 
-const roomNames = computed(() => roomStore.rooms);
+const rooms = computed(() => roomStore.rooms);
 
 const roomPassword = ref("test");
-const roomName = ref(undefined);
+const roomId = ref(undefined);
+const router = useRouter();
 
-function submitRoom(submittedRoomName) {
-    console.log("Submitting room:", submittedRoomName);
-    roomName.value = submittedRoomName;
+function submitRoom(submittedRoom) {
+    console.log("Submitting room:", submittedRoom);
+    roomId.value = submittedRoom.id;
 }
 
-function joinRoom(event) {
+async function joinRoom(event) {
     event.preventDefault();
-    if (!roomName.value) {
+    if (!roomId.value) {
         alert("Please select a room.");
         return;
     }
-    roomStore.joinRoom(roomName.value, roomPassword.value);
+    await roomStore.joinRoom(roomId.value, roomPassword.value);
+    router.push('/chat');
 }
 
 
