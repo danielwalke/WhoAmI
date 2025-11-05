@@ -5,3 +5,7 @@
 #app {
   @apply w-screen h-screen;
 }
+
+button{
+  @apply flex bg-sky-600 cursor-pointer rounded-md p-2 hover:scale-105 transition-all ease-in-out text-white justify-center items-center
+}

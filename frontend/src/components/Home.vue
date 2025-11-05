@@ -48,6 +48,7 @@
 
 <script setup>
 // No script logic is needed for this static introduction page.
+// TODO: https://github.com/VincentGarreau/particles.js/
 </script>
 
 <style scoped>

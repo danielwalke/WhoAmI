@@ -49,6 +49,10 @@ export const useFieldStore = defineStore('field', {
             console.error('Error uploading files:', error);
             this.uploadStatus = `Error: ${error.response.data.detail || 'Upload failed'}`;
         });
+    },
+    removeAllFiles(){
+      this.rawFiles = []
+      this.cards = []
     }
 }
 })
