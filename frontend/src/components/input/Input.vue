@@ -88,12 +88,14 @@
         &#10095;
       </button>
     </div>
+    <Upload/>
   </div>
 </template>
 
 <script setup>
 import { ref, computed } from 'vue'
 import { useFieldStore } from '@/stores/FieldStore.js'
+import Upload from './Upload.vue'
 
 const fieldStore = useFieldStore()
 const images = computed(() => fieldStore.getCards)
@@ -108,7 +110,7 @@ const getBaseName = (fileName) => {
 }
 
 const processFiles = (files) => {
-    
+  fieldStore.setRawFiles(files)
   for (const file of files) {
     if (file.type.startsWith('image/')) {
       const id = crypto.randomUUID()
