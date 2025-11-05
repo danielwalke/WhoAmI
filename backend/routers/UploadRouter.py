@@ -7,6 +7,9 @@ from datetime import datetime
 from utils.DocumentValidator import DocumentValidator
 from constants.Router import SERVER_PREFIX, UPLOAD_SINGLE_ROUTE, UPLOAD_MULTIPLE_ROUTE
 from constants.Upload import UPLOAD_DIR
+from utils.DatabaseUtils import SessionDep
+from database.database_classes.Room import Room
+from database.database_classes.Image import Image
 
 doc_validator = DocumentValidator(max_size=10 * 1024 * 1024) # 10MB limit
 router = APIRouter(
@@ -53,13 +56,13 @@ async def upload_single_file(request: Request, file: UploadFile = File(...)):
     }
 
 @router.post(UPLOAD_MULTIPLE_ROUTE)
-async def upload_multiple_files(request: Request, files: List[UploadFile] = File(...)):
+async def upload_multiple_files(request: Request, files: List[UploadFile], session: SessionDep):
     """Upload multiple files with validation"""
-
+    room = session.get(Room, "b60868a0-a422-48d5-8aa8-1b69ab6193ef")
     if len(files) > 24:  # Limit number of files
         raise HTTPException(
             status_code=400,
-            detail="Too many files. Maximum 10 files allowed."
+            detail="Too many files. Maximum 24 files allowed."
         )
 
     results = []
@@ -83,6 +86,15 @@ async def upload_multiple_files(request: Request, files: List[UploadFile] = File
             with open(file_path, "wb") as buffer:
                 shutil.copyfileobj(file.file, buffer)
             file_url = request.url_for("static", path=unique_filename)
+            image = Image(
+                id=unique_filename,
+                name=unique_filename,
+                url=str(file_url),
+                room_id=room.id
+            )
+            print(image)
+            session.add(image)
+            
             results.append({
                 "filename": file.filename,
                 "stored_filename": unique_filename,
@@ -100,7 +112,7 @@ async def upload_multiple_files(request: Request, files: List[UploadFile] = File
 
     successful = [r for r in results if r["success"]]
     failed = [r for r in results if not r["success"]]
-
+    session.commit()
     return {
         "total_files": len(files),
         "successful": len(successful),

@@ -18,7 +18,6 @@ def create_room(room:Room, session: SessionDep):
     salt = bcrypt.gensalt()
     hashed = bcrypt.hashpw(room.password.encode('utf-8'), salt)
     room.password = hashed
-
     session.add(room)
     session.commit()
     session.refresh(room)
