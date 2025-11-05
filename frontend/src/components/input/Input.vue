@@ -76,7 +76,6 @@
       </button>
     </div>
     <ClearInput/>
-    <Upload/>
   </div>
 </template>
 

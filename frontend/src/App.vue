@@ -5,18 +5,33 @@
     </main>
 
     <footer class="h-16 w-full  ">
-      <RouterLink to="/">Home</RouterLink>
-      <RouterLink to="/input">Input</RouterLink>
-      <RouterLink to="/game">Game</RouterLink>
-      <RouterLink to="/room">Room</RouterLink>
-      <RouterLink to="/chat">Chat</RouterLink>
+      <div class="flex justify-center gap-2 lg:gap-16 flex-1">
+        <RouterLink to="/">Home</RouterLink>
+        <RouterLink to="/prepare">Prepare</RouterLink>
+        <RouterLink to="/input">Input</RouterLink>
+        <RouterLink to="/game">Game</RouterLink>
+        <RouterLink to="/room">Room</RouterLink>
+        <RouterLink to="/chat">Chat</RouterLink>
+      </div>
+      
+      <div class="text-white" >
+          <LeaveRoom  v-if="hasConnection"/>
+      </div>
     </footer>
   </div>
 </template>
 
+<script setup>
+import LeaveRoom from '@/components/room/LeaveRoom.vue';
+import { useRoomStore } from './stores/roomStore';  
+import { computed } from 'vue';
+
+const roomStore = useRoomStore();
+const hasConnection = computed(() => roomStore.getConnection !== undefined);
+</script>
 <style scoped>
 footer {
-  @apply w-full bg-black/90 p-4 flex justify-center items-center gap-16;
+  @apply w-full bg-black/90 p-4 flex justify-between items-center;
 }
 
 footer a {

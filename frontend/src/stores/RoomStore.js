@@ -71,6 +71,7 @@ export const useRoomStore = defineStore('room', {
         this.joinedRoom = undefined;
         this.connection.close();
         this.connection = undefined;
+        this.messages = []
       }
     },
     fetchRooms() {

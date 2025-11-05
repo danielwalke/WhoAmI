@@ -49,7 +49,7 @@ async function joinRoom(event) {
         return;
     }
     await roomStore.joinRoom(roomId.value, roomPassword.value, clientName.value);
-    router.push('/chat');
+    //router.push('/chat');
 }
 
 
