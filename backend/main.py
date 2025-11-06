@@ -11,6 +11,7 @@ from routers.HealthRouter import router as HealthRouter
 from routers.RoomRouter import router as RoomRouter
 from routers.UploadRouter import router as UploadRouter
 from routers.ChatRouter import router as ChatRouter
+from routers.ImageRouter import router as ImageRouter
 
 app = FastAPI(redirect_slashes=False)
 app.mount(
@@ -49,5 +50,9 @@ app.include_router(
 )
 app.include_router(
     ChatRouter,
+    prefix=SERVER_PREFIX
+)
+app.include_router(
+    ImageRouter,
     prefix=SERVER_PREFIX
 )

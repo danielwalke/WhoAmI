@@ -7,7 +7,7 @@ router = APIRouter(
 )
 
 @router.get(HELLO_ROUTE)
-def read_root():
+def read_hello():
     return {"Hello": "World"}
 
 @router.get(HEALTH_ROUTE)

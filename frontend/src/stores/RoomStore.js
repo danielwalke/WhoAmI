@@ -2,9 +2,10 @@ import { defineStore } from 'pinia'
 import { SERVER_PREFIX } from '../constants/Server'
 import { SERVER_URL, WEBSOCKET_URL } from '../constants/Server'
 import axios from 'axios'
+import { useFieldStore } from './FieldStore'
 
 export const useRoomStore = defineStore('room', {
-  state: () => ({ rooms: [], connection: undefined, messages: [], joinedRoom: undefined, clientId: 0 }),
+  state: () => ({ rooms: [], connection: undefined, messages: [], joinedRoom: undefined, clientId: 0, roomId: undefined, roomPassword: undefined }),
   getters: {
     getRooms: (state) => state.rooms,
     getConnection: (state) => state.connection,
@@ -17,7 +18,9 @@ export const useRoomStore = defineStore('room', {
         } });
       return clientIds.size;
     },
-    getClientId: (state) => state.clientId
+    getClientId: (state) => state.clientId,
+    getRoomId: (state) => state.roomId,
+    getRoomPassword: (state) => state.roomPassword
   },
   actions: {
     addRoom(roomName, roomPassword) {
@@ -35,7 +38,10 @@ export const useRoomStore = defineStore('room', {
       })    
     },
     async joinRoom(roomId, roomPassword, clientName){
+      const fieldStore = useFieldStore()
       this.clientId = crypto.randomUUID();
+      this.roomId = roomId
+      this.roomPassword = roomPassword
       const wsUrl = `${WEBSOCKET_URL}/${roomId}/${roomPassword}/${this.clientId}/${clientName}`;
       console.log('Connecting to WebSocket URL:', wsUrl);
       this.connection = new WebSocket(wsUrl);
@@ -50,6 +56,8 @@ export const useRoomStore = defineStore('room', {
 
       this.connection.onopen = (event) => {
         console.log(`Successfully connected ${this.clientId} to WebSocket server`);
+        console.log(roomId, roomPassword)
+        fieldStore.fetchRoomImages(roomId, roomPassword)
       };
 
       this.connection.onmessage = (event) => {
@@ -72,6 +80,8 @@ export const useRoomStore = defineStore('room', {
         this.connection.close();
         this.connection = undefined;
         this.messages = []
+        this.roomId = undefined
+        this.roomPassword = undefined
       }
     },
     fetchRooms() {

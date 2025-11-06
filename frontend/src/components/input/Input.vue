@@ -82,7 +82,7 @@
 <script setup>
 import { ref, computed } from 'vue'
 import { useFieldStore } from '@/stores/FieldStore.js'
-import Upload from './Upload.vue'
+
 import ClearInput from './ClearInput.vue'
 import TrashIcon from '@/components/icons/TrashIcon.vue'
 

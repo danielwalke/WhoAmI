@@ -2,6 +2,7 @@ import {cards} from '../utils/init/Cards.js'
 import { defineStore } from 'pinia'
 import axios from 'axios'
 import { SERVER_URL, SERVER_PREFIX } from '../constants/Server.js'
+import { useRoomStore } from './RoomStore.js'
 
 
 export const useFieldStore = defineStore('field', {
@@ -28,14 +29,31 @@ export const useFieldStore = defineStore('field', {
     setRawFiles(files) {
       this.rawFiles = files;
     },
+    fetchRoomImages(room_id, room_password){
+        axios.get(`${SERVER_URL}/${SERVER_PREFIX}/${room_id}/${room_password}/get_images`).then(
+          response => {
+            console.log(response.data)
+            if(response.data && response.data.length == 0) return
+            this.cards = response.data.map(image => {
+              return {
+                    id: image.id,
+                    title: image.name,
+                    url: image.url,
+                    isActive: true,
+                  }
+            })
+          }).catch(error => console.error(error))
+    },
     uploadFiles() {
         console.log('Uploading files:', this.rawFiles);
-        console.log(`${SERVER_URL}/${SERVER_PREFIX}/upload/single`)
         const formData = new FormData();
+        const roomStore = useRoomStore()
+        const roomId = roomStore.getRoomId
+        const roomPassword = roomStore.getRoomPassword
         for(const file of this.rawFiles) {
             formData.append("files", file);
         }
-        axios.post(`${SERVER_URL}/${SERVER_PREFIX}/upload/multiple`, formData, {          
+        axios.post(`${SERVER_URL}/${SERVER_PREFIX}/upload/multiple/${roomId}/${roomPassword}`, formData, {          
           onUploadProgress: (progressEvent) => {
             const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
             this.uploadStatus = `Uploading: ${percentCompleted}%`;
@@ -43,7 +61,7 @@ export const useFieldStore = defineStore('field', {
         })
         .then(response => {
             console.log('Files uploaded successfully:', response.data);
-            this.uploadStatus = `Upload successful! File: ${response.data.filename}`;
+            this.fetchRoomImages(roomId, roomPassword)
         })
         .catch(error => {
             console.error('Error uploading files:', error);
@@ -53,6 +71,9 @@ export const useFieldStore = defineStore('field', {
     removeAllFiles(){
       this.rawFiles = []
       this.cards = []
+    },
+    resetDefaultCards(){
+      this.cards = cards
     }
 }
 })

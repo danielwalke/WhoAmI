@@ -5,11 +5,12 @@ import shutil
 import uuid
 from datetime import datetime
 from utils.DocumentValidator import DocumentValidator
-from constants.Router import SERVER_PREFIX, UPLOAD_SINGLE_ROUTE, UPLOAD_MULTIPLE_ROUTE
+from constants.Router import SERVER_PREFIX, UPLOAD_MULTIPLE_ROUTE
 from constants.Upload import UPLOAD_DIR
 from utils.DatabaseUtils import SessionDep
 from database.database_classes.Room import Room
 from database.database_classes.Image import Image
+from utils.RoomCheck import verify_room_auth
 
 doc_validator = DocumentValidator(max_size=10 * 1024 * 1024) # 10MB limit
 router = APIRouter(
@@ -17,48 +18,12 @@ router = APIRouter(
     redirect_slashes=False
 )
 
-@router.post(UPLOAD_SINGLE_ROUTE)
-async def upload_single_file(request: Request, file: UploadFile = File(...)):
-    validation = await doc_validator.validate_file(file)
-
-    if not validation["valid"]:
-        raise HTTPException(
-            status_code=400,
-            detail={
-                "message": "File validation failed",
-                "errors": validation["errors"]
-            }
-        )
-
-    file_ext = Path(file.filename).suffix
-    unique_filename = f"{uuid.uuid4()}{file_ext}"
-    file_path = UPLOAD_DIR / unique_filename
-
-    try:
-        with open(file_path, "wb") as buffer:
-            shutil.copyfileobj(file.file, buffer)
-    except Exception as e:
-        raise HTTPException(
-            status_code=500,
-            detail=f"Failed to save file: {str(e)}"
-        )
-    file_url = request.url_for("static", path=unique_filename)
-
-    return {
-        "success": True,
-        "original_filename": file.filename,
-        "stored_filename": unique_filename,
-        "content_type": file.content_type,
-        "size": file.size,
-        "upload_time": datetime.utcnow().isoformat(),
-        "location": str(file_path),
-        "url": file_url
-    }
-
 @router.post(UPLOAD_MULTIPLE_ROUTE)
-async def upload_multiple_files(request: Request, files: List[UploadFile], session: SessionDep):
+async def upload_multiple_files(request: Request, files: List[UploadFile], room_id:str, room_password:str, session: SessionDep):
     """Upload multiple files with validation"""
-    room = session.get(Room, "b60868a0-a422-48d5-8aa8-1b69ab6193ef")
+    room = session.get(Room, room_id)
+    verify_room_auth(room_password, room)
+    
     if len(files) > 24:  # Limit number of files
         raise HTTPException(
             status_code=400,
@@ -86,13 +51,15 @@ async def upload_multiple_files(request: Request, files: List[UploadFile], sessi
             with open(file_path, "wb") as buffer:
                 shutil.copyfileobj(file.file, buffer)
             file_url = request.url_for("static", path=unique_filename)
+            name = file.filename
+            if "." in name:
+                name = name.split(".")[0]
             image = Image(
                 id=unique_filename,
-                name=unique_filename,
+                name=name,
                 url=str(file_url),
                 room_id=room.id
             )
-            print(image)
             session.add(image)
             
             results.append({
