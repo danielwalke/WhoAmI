@@ -6,6 +6,7 @@ from sqlmodel import Session, select
 from constants.Router import SERVER_PREFIX, CREATE_ROOM_ROUTE, GET_ROOMS_ROUTE, GET_ROOM_ROUTE
 from utils.DatabaseUtils import SessionDep
 from database.database_classes.Room import Room
+from meta.RoomOut import RoomOut
 
 router = APIRouter(
     tags=[SERVER_PREFIX],
@@ -23,12 +24,14 @@ def create_room(room:Room, session: SessionDep):
     session.refresh(room)
     return {"Success": f"Room {room.name} created"}
 
-@router.get(GET_ROOMS_ROUTE, response_model=List[Room])
-def get_rooms(session: SessionDep) -> list[Room]:
+@router.get(GET_ROOMS_ROUTE, response_model=List[RoomOut])
+def get_rooms(session: SessionDep) -> list[RoomOut]:
     rooms = session.exec(select(Room)).all()
+    out_rooms = []
     for room in rooms:
-        room.password = "hidden"
-    return rooms
+        room_out = RoomOut(id = room.id, created_at=room.created_at, name = room.name)
+        out_rooms.append(room_out)
+    return out_rooms
 
 @router.get(GET_ROOM_ROUTE, response_model=Room)
 def get_room(session: SessionDep, room_id, room_password) -> Room:
