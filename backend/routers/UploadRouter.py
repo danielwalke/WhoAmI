@@ -1,4 +1,4 @@
-from fastapi import APIRouter, UploadFile, File, HTTPException, Request
+from fastapi import APIRouter, UploadFile, File, HTTPException, Request, Form
 from typing import List
 from pathlib import Path
 import shutil
@@ -18,11 +18,12 @@ router = APIRouter(
     redirect_slashes=False
 )
 
+
 @router.post(UPLOAD_MULTIPLE_ROUTE)
-async def upload_multiple_files(request: Request, files: List[UploadFile], room_id:str, room_password:str, session: SessionDep):
+async def upload_multiple_files(request: Request, files: List[UploadFile], session: SessionDep):
     """Upload multiple files with validation"""
-    room = session.get(Room, room_id)
-    verify_room_auth(room_password, room)
+    room = session.get(Room, "d34358c9-37e4-4026-a6c7-f103f16848d1")
+    verify_room_auth("test", room)
     
     if len(files) > 24:  # Limit number of files
         raise HTTPException(

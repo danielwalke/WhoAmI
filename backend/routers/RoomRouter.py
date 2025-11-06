@@ -3,7 +3,7 @@ import bcrypt
 from typing import List
 from fastapi import HTTPException
 from sqlmodel import Session, select
-from constants.Router import SERVER_PREFIX, CREATE_ROOM_ROUTE, GET_ROOMS_ROUTE, GET_ROOM_ROUTE
+from constants.Router import SERVER_PREFIX, CREATE_ROOM_ROUTE, GET_ROOMS_ROUTE, POST_GET_ROOM_ROUTE
 from utils.DatabaseUtils import SessionDep
 from database.database_classes.Room import Room
 from meta.RoomOut import RoomOut
@@ -34,9 +34,9 @@ def get_rooms(session: SessionDep) -> list[RoomOut]:
         out_rooms.append(room_out)
     return out_rooms
 
-@router.get(GET_ROOM_ROUTE, response_model=Room)
-def get_room(session: SessionDep, room_id, room_password) -> Room:
-    room = session.get(Room, room_id)
-    verify_room_auth(room_password=room_password, room=room)
-    out_room = RoomOut(id = room.id, created_at=room.created_at, name = room.name)
+@router.post(POST_GET_ROOM_ROUTE, response_model=Room)
+def get_room(room: Room, session: SessionDep) -> Room:
+    fetched_room = session.get(Room, room.id)
+    verify_room_auth(room_password=room.password, room=fetched_room)
+    out_room = RoomOut(id = fetched_room.id, created_at=fetched_room.created_at, name = fetched_room.name)
     return out_room
