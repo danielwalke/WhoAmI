@@ -7,6 +7,7 @@ from constants.Router import SERVER_PREFIX, CREATE_ROOM_ROUTE, GET_ROOMS_ROUTE, 
 from utils.DatabaseUtils import SessionDep
 from database.database_classes.Room import Room
 from meta.RoomOut import RoomOut
+from utils.RoomCheck import verify_room_auth
 
 router = APIRouter(
     tags=[SERVER_PREFIX],
@@ -36,9 +37,6 @@ def get_rooms(session: SessionDep) -> list[RoomOut]:
 @router.get(GET_ROOM_ROUTE, response_model=Room)
 def get_room(session: SessionDep, room_id, room_password) -> Room:
     room = session.get(Room, room_id)
-    if not bcrypt.checkpw(room_password.encode('utf-8'), room.password):
-        raise HTTPException(status_code=401, detail="Incorrect password")
-    if room is None:
-        raise HTTPException(status_code=404, detail=f"Room with ID {room_id} not found")
-    room.password = "hidden"
-    return room
+    verify_room_auth(room_password=room_password, room=room)
+    out_room = RoomOut(id = room.id, created_at=room.created_at, name = room.name)
+    return out_room
