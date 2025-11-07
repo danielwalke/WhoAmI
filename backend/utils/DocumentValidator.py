@@ -21,7 +21,7 @@ class DocumentValidator:
         if file_ext not in self.allowed_extensions:
             result["valid"] = False
             result["errors"].append(
-                f"File extension '{file_ext}' not allowed. Use: .pdf, .txt, or .json"
+                f"File extension '{file_ext}' not allowed. Allowed: {', '.join(self.allowed_extensions)}"
             )
 
         # Read file to check size

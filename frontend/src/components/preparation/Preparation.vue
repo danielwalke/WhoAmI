@@ -4,16 +4,10 @@
             <h2>Preparation</h2>
             <div class="w-full  ">
                 <div class="flex justify-center items-center flex-col w-full pb-2 lg:pb-4" v-if="page==1">
-                    
                     <CreateRoom />
-                    
                 </div>
                 <div class="flex flex-col justify-center items-center pb-2 lg:pb-4" v-if="page==2">
-                    <h3>Join a room</h3>
-                    <div v-if="hasRooms && !hasConnection">
-                        <JoinRoom />
-                        <Vue3Lottie :animationData="JoinJSON" :height="200" :width="200" />
-                    </div>
+                    <JoinRoom />
                 </div>
                 
                 <div class="flex flex-col justify-center items-center" v-if="page==3">
@@ -37,7 +31,7 @@
 </template>
 
 <script setup>
-import { Vue3Lottie } from 'vue3-lottie'
+
 import CreateRoom from "@/components/room/CreateRoom.vue"
 import JoinRoom from '@/components/room/JoinRoom.vue';
 import Input from '@/components/input/Input.vue';
@@ -45,7 +39,7 @@ import { useRoomStore } from '../../stores/roomStore';
 import { computed, onMounted, ref  } from 'vue';
 import Upload from '@/components/input/Upload.vue'
 
-import JoinJSON from "@/assets/lottie_files/Join.json"
+
 
 const roomStore = useRoomStore();
 const hasRooms = computed(() => roomStore.getRooms && roomStore.getRooms.length > 0);

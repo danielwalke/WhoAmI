@@ -1,32 +1,38 @@
 <template>
-    <div class="join-room">
-        <form class="flex flex-col p-2 gap-2">
-            <label for="room">Room Name:</label>
+    <div>
+        <div class="flex flex-col gap-2" v-if="!triggerAnimation">
+            <h3>Join room</h3>
             <Autocomplete :items="rooms" :onSubmit="submitRoom" key_field="name"/>
             <input
-                class="border-2 p-2 rounded-md"
-                v-if="roomId"
-                type="text"
-                v-model="clientName"
-                placeholder="Username"
-            />
-            <input
-                class="border-2 p-2 rounded-md"
-                v-if="roomId"
-                type="password"
-                v-model="roomPassword"
-                placeholder="Room Password"
-            />
-            <button class="bg-sky-600 p-4 text-white font-semibold rounded-md" type="submit" @click="joinRoom">Join</button>
-        </form>
-    </div>
+                    class="border-2 p-2 rounded-md"
+                    v-if="roomId"
+                    type="text"
+                    v-model="clientName"
+                    placeholder="Username"
+                />
+                <input
+                    class="border-2 p-2 rounded-md"
+                    v-if="roomId"
+                    type="password"
+                    v-model="roomPassword"
+                    placeholder="Room Password"
+                />
+            <button class="bg-sky-600 p-2 text-white font-semibold rounded-md" type="submit" @click="joinRoom">Join</button>
+        </div>
+        <div v-if="triggerAnimation">
+            <Vue3Lottie :animationData="JoinJSON"  />
+        </div>
+    </div>    
 </template>
 
 <script setup>
+import { Vue3Lottie } from 'vue3-lottie'
 import { computed, ref } from 'vue';
 import Autocomplete from '../utils/Autocomplete.vue';
 import { useRoomStore } from '../../stores/roomStore';
 import { useRouter } from 'vue-router';
+import JoinJSON from "@/assets/lottie_files/Join.json"
+import { nextTick } from 'vue'
 
 const roomStore = useRoomStore();
 
@@ -35,51 +41,26 @@ const rooms = computed(() => roomStore.rooms);
 const roomPassword = ref("test");
 const roomId = ref(undefined);
 const clientName = ref("Peter");
+const triggerAnimation = ref(false)
 
 function submitRoom(submittedRoom) {
-    console.log("Submitting room:", submittedRoom);
     roomId.value = submittedRoom.id;
 }
 
-async function joinRoom(event) {
-    event.preventDefault();
-    if (!roomId.value) {
-        alert("Please select a room.");
-        return;
-    }
-    await roomStore.joinRoom(roomId.value, roomPassword.value, clientName.value);
+async function joinRoom(e) {
+    e.preventDefault()
+    triggerAnimation.value = true
+    await nextTick()
     
+    roomStore.joinRoom(roomId.value, roomPassword.value, clientName.value);
+    setTimeout(()=>{
+        triggerAnimation.value = false
+        roomStore.setPage(3)
+    }, 3000)
 }
 
 
 </script>
 
 <style scoped>
-.join-room {
-    max-width: 400px;
-    margin: 0 auto;
-    padding: 2rem;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-}
-h2 {
-    margin-bottom: 1rem;
-}
-form {
-    display: flex;
-    flex-direction: column;
-}
-label {
-    margin-bottom: 0.5rem;
-}
-input {
-    margin-bottom: 1rem;
-    padding: 0.5rem;
-    font-size: 1rem;
-}
-button {
-    padding: 0.5rem 1rem;
-    font-size: 1rem;
-    cursor: pointer;
-}
 </style>

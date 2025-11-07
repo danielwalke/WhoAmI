@@ -16,6 +16,7 @@ manager = ConnectionManager()
 
 @router.websocket(WEBSOCKET_ROUTE)
 async def websocket_endpoint(websocket: WebSocket, room_id:str, room_password:str, client_id: str, client_name:str, session: SessionDep):
+    ## TODO Make this mor esecure with session cookie
     print(f"Client #{client_id} ({client_name}) connected to room {room_id}")
     room = session.get(Room, room_id)
     

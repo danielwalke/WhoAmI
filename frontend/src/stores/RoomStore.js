@@ -42,47 +42,41 @@ export const useRoomStore = defineStore('room', {
         console.error('Error creating room:', error)
       })    
     },
-    async joinRoom(roomId, roomPassword, clientName){
+    joinRoom(roomId, roomPassword, clientName){
       const fieldStore = useFieldStore()
       this.clientId = crypto.randomUUID();
       this.roomId = roomId
       this.roomPassword = roomPassword
       const wsUrl = `${WEBSOCKET_URL}/${roomId}/${roomPassword}/${this.clientId}/${clientName}`;
-      console.log('Connecting to WebSocket URL:', wsUrl);
       this.connection = new WebSocket(wsUrl);
-      try{
-          const data = {
+      axios.post(POST_GET_ROOM_EP, {
             "id": roomId,
             "password": roomPassword
-          }
-          console.log(data)
-          const resp = await axios.post(POST_GET_ROOM_EP, data)
+      }).then(resp =>{
           this.joinedRoom = resp.data;
-      }catch(error){
-          console.error('Error joining room:', error)
+          this.connection.onopen = (event) => {
+            console.log(`Successfully connected ${this.clientId} to WebSocket server`);
+            console.log(roomId, roomPassword)
+            fieldStore.fetchRoomImages(roomId, roomPassword)
+          };
+
+          this.connection.onmessage = (event) => {
+            const data = JSON.parse(event.data);
+            console.log('Message received from server:', data);
+            this.messages.push(data);
+          };
+
+          this.connection.onclose = (event) => {
+            console.log('WebSocket connection closed');
+          };
+
+          this.connection.onerror = (error) => {
+            console.error('WebSocket Error:', error);
+          };
+      }).catch(error => {
+        console.error('Error joining room:', error)
           alert('Error joining room: ' + error.response.data["detail"]);
-      }
-      
-
-      this.connection.onopen = (event) => {
-        console.log(`Successfully connected ${this.clientId} to WebSocket server`);
-        console.log(roomId, roomPassword)
-        fieldStore.fetchRoomImages(roomId, roomPassword)
-      };
-
-      this.connection.onmessage = (event) => {
-        const data = JSON.parse(event.data);
-        console.log('Message received from server:', data);
-        this.messages.push(data);
-      };
-
-      this.connection.onclose = (event) => {
-        console.log('WebSocket connection closed');
-      };
-
-      this.connection.onerror = (error) => {
-        console.error('WebSocket Error:', error);
-      };
+      })      
     },
     leaveRoom(){
       if (this.connection) {
