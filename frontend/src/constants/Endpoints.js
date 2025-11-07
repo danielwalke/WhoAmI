@@ -1,0 +1,6 @@
+import { SERVER_PREFIX, SERVER_URL } from "./Server"
+export const POST_GET_IMAGES_EP = `${SERVER_URL}/${SERVER_PREFIX}/get_images`
+export const GET_GET_ROOMS_EP = `${SERVER_URL}/${SERVER_PREFIX}/rooms`
+export const POST_GET_ROOM_EP = `${SERVER_URL}/${SERVER_PREFIX}/room`
+export const POST_CREATE_ROOM_EP = `${SERVER_URL}/${SERVER_PREFIX}/create_room`
+export const POST_UPLOAD_IMAGES = `${SERVER_URL}/${SERVER_PREFIX}/upload/multiple`

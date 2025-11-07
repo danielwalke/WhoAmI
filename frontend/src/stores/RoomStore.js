@@ -3,6 +3,7 @@ import { SERVER_PREFIX } from '../constants/Server'
 import { SERVER_URL, WEBSOCKET_URL } from '../constants/Server'
 import axios from 'axios'
 import { useFieldStore } from './FieldStore'
+import { GET_GET_ROOMS_EP, POST_CREATE_ROOM_EP, POST_GET_ROOM_EP } from '../constants/Endpoints'
 
 export const useRoomStore = defineStore('room', {
   state: () => ({ rooms: [], connection: undefined, messages: [], joinedRoom: undefined, clientId: 0, roomId: undefined, roomPassword: undefined }),
@@ -30,7 +31,7 @@ export const useRoomStore = defineStore('room', {
         password: roomPassword
       }
       console.log('Creating room with data:', data)
-      axios.post(`${SERVER_URL}/${SERVER_PREFIX}/create_room`, data).then(response => {
+      axios.post(POST_CREATE_ROOM_EP, data).then(response => {
         console.log('Room created:', response.data)
         this.fetchRooms();
       }).catch(error => {
@@ -46,7 +47,12 @@ export const useRoomStore = defineStore('room', {
       console.log('Connecting to WebSocket URL:', wsUrl);
       this.connection = new WebSocket(wsUrl);
       try{
-          const resp = await axios.get(`${SERVER_URL}/${SERVER_PREFIX}/room/${roomId}/${roomPassword}`)
+          const data = {
+            "id": roomId,
+            "password": roomPassword
+          }
+          console.log(data)
+          const resp = await axios.post(POST_GET_ROOM_EP, data)
           this.joinedRoom = resp.data;
       }catch(error){
           console.error('Error joining room:', error)
@@ -85,7 +91,7 @@ export const useRoomStore = defineStore('room', {
       }
     },
     fetchRooms() {
-      axios.get(`${SERVER_URL}/${SERVER_PREFIX}/rooms`).then(response => {
+      axios.get(GET_GET_ROOMS_EP).then(response => {
         const fetched_rooms = response.data;
         console.log(fetched_rooms)
         if (fetched_rooms === undefined) return;

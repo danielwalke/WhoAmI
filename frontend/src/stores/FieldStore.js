@@ -3,6 +3,7 @@ import { defineStore } from 'pinia'
 import axios from 'axios'
 import { SERVER_URL, SERVER_PREFIX } from '../constants/Server.js'
 import { useRoomStore } from './RoomStore.js'
+import {POST_GET_IMAGES_EP, POST_UPLOAD_IMAGES} from "../constants/Endpoints.js"
 
 
 export const useFieldStore = defineStore('field', {
@@ -30,7 +31,11 @@ export const useFieldStore = defineStore('field', {
       this.rawFiles = files;
     },
     fetchRoomImages(room_id, room_password){
-        axios.get(`${SERVER_URL}/${SERVER_PREFIX}/${room_id}/${room_password}/get_images`).then(
+      const data = {
+        id: room_id,
+        password: room_password
+      }  
+      axios.post(POST_GET_IMAGES_EP, data).then(
           response => {
             console.log(response.data)
             if(response.data && response.data.length == 0) return
@@ -50,10 +55,12 @@ export const useFieldStore = defineStore('field', {
         const roomStore = useRoomStore()
         const roomId = roomStore.getRoomId
         const roomPassword = roomStore.getRoomPassword
+        formData.append("room_id", roomId);
+        formData.append("room_password", roomPassword);
         for(const file of this.rawFiles) {
             formData.append("files", file);
         }
-        axios.post(`${SERVER_URL}/${SERVER_PREFIX}/upload/multiple/${roomId}/${roomPassword}`, formData, {          
+        axios.post(POST_UPLOAD_IMAGES, formData, {             
           onUploadProgress: (progressEvent) => {
             const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
             this.uploadStatus = `Uploading: ${percentCompleted}%`;

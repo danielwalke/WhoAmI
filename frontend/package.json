@@ -12,6 +12,7 @@
     "axios": "^1.13.1",
     "pinia": "^3.0.3",
     "vue": "^3.4.35",
+    "vue-lottie-player": "^0.1.9",
     "vue-router": "^4.6.3"
   },
   "devDependencies": {
