@@ -6,7 +6,7 @@ import { useFieldStore } from './FieldStore'
 import { GET_GET_ROOMS_EP, POST_CREATE_ROOM_EP, POST_GET_ROOM_EP } from '../constants/Endpoints'
 
 export const useRoomStore = defineStore('room', {
-  state: () => ({ rooms: [], connection: undefined, messages: [], joinedRoom: undefined, clientId: 0, roomId: undefined, roomPassword: undefined }),
+  state: () => ({ rooms: [], connection: undefined, messages: [], joinedRoom: undefined, clientId: 0, roomId: undefined, roomPassword: undefined, page: 1 }),
   getters: {
     getRooms: (state) => state.rooms,
     getConnection: (state) => state.connection,
@@ -21,9 +21,13 @@ export const useRoomStore = defineStore('room', {
     },
     getClientId: (state) => state.clientId,
     getRoomId: (state) => state.roomId,
-    getRoomPassword: (state) => state.roomPassword
+    getRoomPassword: (state) => state.roomPassword,
+    getPage: (state) => state.page
   },
   actions: {
+    setPage(newPage){
+        this.page = newPage
+    },
     addRoom(roomName, roomPassword) {
       const data = {
         id: crypto.randomUUID(),

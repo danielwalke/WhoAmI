@@ -4,13 +4,15 @@
             <h2>Preparation</h2>
             <div class="w-full  ">
                 <div class="flex justify-center items-center flex-col w-full pb-2 lg:pb-4" v-if="page==1">
-                    <h3>Create a room</h3>
+                    
                     <CreateRoom />
+                    
                 </div>
                 <div class="flex flex-col justify-center items-center pb-2 lg:pb-4" v-if="page==2">
                     <h3>Join a room</h3>
                     <div v-if="hasRooms && !hasConnection">
                         <JoinRoom />
+                        <Vue3Lottie :animationData="JoinJSON" :height="200" :width="200" />
                     </div>
                 </div>
                 
@@ -35,16 +37,27 @@
 </template>
 
 <script setup>
+import { Vue3Lottie } from 'vue3-lottie'
 import CreateRoom from "@/components/room/CreateRoom.vue"
 import JoinRoom from '@/components/room/JoinRoom.vue';
 import Input from '@/components/input/Input.vue';
 import { useRoomStore } from '../../stores/roomStore';  
 import { computed, onMounted, ref  } from 'vue';
 import Upload from '@/components/input/Upload.vue'
+
+import JoinJSON from "@/assets/lottie_files/Join.json"
+
 const roomStore = useRoomStore();
 const hasRooms = computed(() => roomStore.getRooms && roomStore.getRooms.length > 0);
 const hasConnection = computed(() => roomStore.getConnection !== undefined);
-const page = ref(1)
+const page = computed({
+  get() {
+    return roomStore.getPage;
+  },  
+  set(newValue) {
+    roomStore.setPage(newValue)
+  }
+})
 onMounted(() => {
     console.log("Fetching rooms on Room component mount");
     roomStore.fetchRooms();
@@ -52,11 +65,5 @@ onMounted(() => {
 </script>
 
 <style scoped>
-h2{
-    @apply text-2xl font-bold flex justify-center items-center lg:p-4 p-2 text-white
-}
 
-h3{
-    @apply font-semibold text-xl text-white
-}
 </style>
