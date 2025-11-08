@@ -84,12 +84,21 @@ export const useFieldStore = defineStore('field', {
             this.uploadStatus = `Error: ${error.response.data.detail || 'Upload failed'}`;
         });
     },
+    removeAllCards(){
+      this.cards = []
+    },
     removeAllFiles(){
       this.rawFiles = []
       this.cards = []
     },
     resetDefaultCards(){
       this.cards = cards
+    },
+    pickRoomCards(){
+      const roomStore = useRoomStore()
+      const roomId = roomStore.getRoomId
+      const roomPassword = roomStore.getRoomPassword
+      this.fetchRoomImages(roomId, roomPassword)
     }
 }
 })

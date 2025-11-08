@@ -12,6 +12,7 @@
                 
                 <div class="flex flex-col justify-center items-center" v-if="page==3">
                     <h3>Create your own cards</h3>
+                    <CardSelection/>
                     <Input/>
                 </div>
                     
@@ -48,7 +49,8 @@ import { computed, onMounted, ref  } from 'vue';
 import Upload from '@/components/input/Upload.vue'
 import { useFieldStore } from "../../stores/FieldStore";
 import UploadJSON from "@/assets/lottie_files/Upload.json"
-
+import DefaultCards from '@/components/input/DefaultCards.vue';
+import CardSelection from '../input/CardSelection.vue';
 
 
 const roomStore = useRoomStore();

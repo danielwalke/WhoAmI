@@ -99,6 +99,7 @@ const getBaseName = (fileName) => {
 }
 
 const processFiles = (files) => {
+  fieldStore.removeAllCards()
   fieldStore.setRawFiles(files)
   for (const file of files) {
     if (file.type.startsWith('image/')) {
