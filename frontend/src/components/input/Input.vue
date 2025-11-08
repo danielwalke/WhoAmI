@@ -40,7 +40,7 @@
             <img
               :src="image.url"
               :alt="image.title"
-              class="max-w-full max-h-full object-contain"
+              class="max-w-full max-h-full object-contain w-full"
             />
           </div>
           <div class="p-3 flex items-center gap-3 bg-white border-t">

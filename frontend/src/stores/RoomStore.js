@@ -54,10 +54,12 @@ export const useRoomStore = defineStore('room', {
             "password": roomPassword
       }).then(resp =>{
           this.joinedRoom = resp.data;
+          console.log("fetch")
+          fieldStore.fetchRoomImages(roomId, roomPassword)
           this.connection.onopen = (event) => {
             console.log(`Successfully connected ${this.clientId} to WebSocket server`);
             console.log(roomId, roomPassword)
-            fieldStore.fetchRoomImages(roomId, roomPassword)
+            
           };
 
           this.connection.onmessage = (event) => {
