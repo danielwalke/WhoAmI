@@ -1,6 +1,6 @@
 <template>
     <div class="flex flex-col gap-2 justify-center items-center">
-        <button class="bg-sky-600 p-2 rounded-md text-white text-lg font-semibold" @click="leaveRoom">Leave Room&nbsp;<span class="italic">{{ joinedRoom.name }}</span></button>
+        <button class="bg-sky-600 p-2 rounded-md text-white text-lg font-semibold" @click="leaveRoom">Leave Room</button>
     </div>
 </template>
 

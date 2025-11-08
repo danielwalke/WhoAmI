@@ -8,9 +8,7 @@
       <div class="flex justify-center gap-2 lg:gap-16 flex-1">
         <RouterLink to="/">Home</RouterLink>
         <RouterLink to="/prepare">Prepare</RouterLink>
-        <RouterLink to="/input">Input</RouterLink>
         <RouterLink to="/game">Game</RouterLink>
-        <RouterLink to="/room">Room</RouterLink>
         <RouterLink to="/chat">Chat</RouterLink>
       </div>
       
