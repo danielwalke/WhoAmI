@@ -7,13 +7,17 @@ import {POST_GET_IMAGES_EP, POST_UPLOAD_IMAGES} from "../constants/Endpoints.js"
 
 
 export const useFieldStore = defineStore('field', {
-  state: () => ({ cards: cards, rawFiles: [], uploadStatus: '' }),
+  state: () => ({ cards: cards, rawFiles: [], uploadStatus: '', triggerUploadAnimation: false }),
   getters: {
     getCards: (state) => state.cards,
     getRawFiles: (state) => state.rawFiles,
-    getUploadStatus: (state) => state.uploadStatus
+    getUploadStatus: (state) => state.uploadStatus,
+    getTriggerUploadAnimation: (state) => state.triggerUploadAnimation
   },
   actions: {
+    toggleTriggerUploadAnimation(){
+      this.triggerUploadAnimation = !this.triggerUploadAnimation
+    },
     changeCardState(cardId) {
       const card = this.cards.find(c => c.id === cardId);
       if (card) {
@@ -50,6 +54,7 @@ export const useFieldStore = defineStore('field', {
           }).catch(error => console.error(error))
     },
     uploadFiles() {
+        this.toggleTriggerUploadAnimation()
         console.log('Uploading files:', this.rawFiles);
         const formData = new FormData();
         const roomStore = useRoomStore()
@@ -68,6 +73,10 @@ export const useFieldStore = defineStore('field', {
         })
         .then(response => {
             console.log('Files uploaded successfully:', response.data);
+            setTimeout(()=>{
+              this.toggleTriggerUploadAnimation()
+            }, 1000)
+            
             this.fetchRoomImages(roomId, roomPassword)
         })
         .catch(error => {

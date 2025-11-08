@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-col h-screen w-full">
-    <main class="flex-1 overflow-hidden">
+    <main class="flex-1 overflow-hidden flex justify-center items-center">
       <RouterView />
     </main>
 
