@@ -20,4 +20,5 @@ export const cards = loadImages().map(image => ({
   title: image.title,
   url: image.url,
   isActive: true,
+  isLocalCard: true
 }));

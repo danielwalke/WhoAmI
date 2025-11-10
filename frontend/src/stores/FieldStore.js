@@ -49,6 +49,7 @@ export const useFieldStore = defineStore('field', {
                     title: image.name,
                     url: image.url,
                     isActive: true,
+                    isLocalCard: false
                   }
             })
           }).catch(error => console.error(error))

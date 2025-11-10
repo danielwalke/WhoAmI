@@ -51,7 +51,7 @@
               placeholder="Image name"
             />
             <button
-              @click="removeImage(image.id)"
+              @click="removeImage(image)"
               class="bg-white flex-shrink-0 p-2 text-red-500 rounded-full hover:bg-red-100 hover:text-red-700 transition-colors"
               aria-label="Delete image"
             >
@@ -118,15 +118,15 @@ const processFiles = (files) => {
 }
 
 
-const removeImage = (id) => {
-  roomStore.setSelectedImageId(id)
+const removeImage = (image) => {
+  roomStore.setSelectedImageId(image.id)
   function deleteImage(){
-      const index = images.value.findIndex((img) => img.id === id)
+      const index = images.value.findIndex((img) => img.id === image.id)
       if (index === -1) return
 
       URL.revokeObjectURL(images.value[index].url)
       images.value.splice(index, 1)
-      fieldStore.deleteCard(id)
+      fieldStore.deleteCard(image.id)
 
       if (currentIndex.value >= images.value.length && images.value.length > 0) {
         currentIndex.value = images.value.length - 1
@@ -134,7 +134,7 @@ const removeImage = (id) => {
         currentIndex.value = 0
       }
   }
-  if(roomStore.getConnection === undefined) {
+  if(roomStore.getConnection === undefined || image.isLocalCard) {
     deleteImage()
     return
   }
