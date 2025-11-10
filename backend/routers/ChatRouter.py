@@ -28,13 +28,21 @@ async def websocket_endpoint(websocket: WebSocket, room_id:str, room_password:st
     
 
     await manager.connect(room_id, websocket)
+    message_payload = {
+                "clientId": client_id,
+                "message": f"{client_name} joined the chat",
+                "clientName": client_name,
+                "system_message": True
+            }
+    await manager.broadcast(room_id, json.dumps(message_payload))
     try:
         while True:
             data = await websocket.receive_text()
             message_payload = {
                 "clientId": client_id,
                 "message": data,
-                "clientName": client_name
+                "clientName": client_name,
+                "system_message": False
             }
             # await manager.send_personal_message(f"You wrote: {data}", websocket)
             await manager.broadcast(room_id, json.dumps(message_payload))
