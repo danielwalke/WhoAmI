@@ -16,9 +16,9 @@
     </div>
 
     <div class="h-16 flex w-full bg-black/20 items-center border-t-gray-200 border-gray-700 flex-shrink-0 p-2 rounded-lg">
-      <form @submit.prevent="sendMessage" class="w-full flex gap-2">
+      <form @submit.prevent="sendMessage" class="w-full flex gap-2 lg:gap-4">
         <input class="p-4 rounded-md w-4/5 text-white bg-gray-800 active:border-none border-none" v-model="newMessage" placeholder="Message" />
-        <button type="submit" class="p-2 flex-1 font-semibold text-white hover:scale-110" >
+        <button type="submit" class="p-2 flex-1 font-semibold text-white hover:scale-105" >
           <div>Send</div>
         </button>
       </form>

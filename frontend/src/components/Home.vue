@@ -3,12 +3,11 @@
     
     <!-- Desktop particle background -->
     <div 
-      v-if="isDesktop" 
+      v-show="isDesktop"
       class="absolute inset-0 -z-10"
     >
       <vue-particles
         id="tsparticles"
-        @particles-loaded="particlesLoaded"
         :options="particleOptions"
       />
     </div>
@@ -74,6 +73,7 @@
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue'
 
+
 const isDesktop = ref(false)
 
 const checkScreenSize = () => {
@@ -82,11 +82,11 @@ const checkScreenSize = () => {
 
 onMounted(() => {
   checkScreenSize()
-  window.addEventListener('resize', checkScreenSize)
+  //window.addEventListener('resize', checkScreenSize)
 })
 
 onUnmounted(() => {
-  window.removeEventListener('resize', checkScreenSize)
+  // window.removeEventListener('resize', checkScreenSize)
 })
 
 const particleOptions = {
@@ -131,6 +131,10 @@ const particleOptions = {
     size: { value: { min: 1, max: 5 } }
   },
   detectRetina: true
+}
+
+const particlesLoaded = (container) => {
+  console.log('Particles loaded:', container)
 }
 </script>
 

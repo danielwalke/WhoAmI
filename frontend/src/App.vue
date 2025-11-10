@@ -10,7 +10,7 @@
         <RouterLink to="/">Home</RouterLink>
         <RouterLink to="/prepare">Prepare</RouterLink>
         <RouterLink to="/game">Game</RouterLink>
-        <RouterLink to="/chat">Chat</RouterLink>
+        <RouterLink v-if="hasConnection" to="/chat">Chat</RouterLink>
       </div>
       
       <div class="text-white" >
