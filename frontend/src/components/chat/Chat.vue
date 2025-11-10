@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-col h-full bg-black/90 lg:p-4 w-full">
     <div class="flex-1 overflow-y-auto">
-        <div class="flex flex-col gap-2 p-4">
+        <div class="flex flex-col gap-2 p-4 ">
         <div v-for="(msg_obj, index) in message_obj" :key="index" class="shadow-sm flex flex-col rounded-md p-2 w-4/5 lg:w-2/3" :class="msg_obj['clientId'] === clientId ? 'items-end bg-green-700/60 self-end' : 'items-start bg-gray-800 self-start'">
             <span class="text-lg" >
              <span :style="{ color: clientColorsMap[msg_obj['clientId']] }" v-if="msg_obj['clientId'] !== clientId">{{ msg_obj["clientName"] }}</span>
