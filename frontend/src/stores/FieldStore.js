@@ -35,6 +35,8 @@ export const useFieldStore = defineStore('field', {
       this.rawFiles = files;
     },
     fetchRoomImages(room_id, room_password){
+      console.log('Fetching images for room:', room_id)
+      this.cards = []
       const data = {
         id: room_id,
         password: room_password

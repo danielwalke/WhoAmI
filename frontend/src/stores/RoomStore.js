@@ -3,7 +3,7 @@ import { SERVER_PREFIX } from '../constants/Server'
 import { SERVER_URL, WEBSOCKET_URL } from '../constants/Server'
 import axios from 'axios'
 import { useFieldStore } from './FieldStore'
-import { GET_GET_ROOMS_EP, POST_CREATE_ROOM_EP, POST_GET_ROOM_EP, DELETE_IMAGE_EP } from '../constants/Endpoints'
+import { GET_GET_ROOMS_EP, POST_CREATE_ROOM_EP, POST_GET_ROOM_EP, DELETE_IMAGE_EP, DELETE_ALL_IMAGES_IN_ROOM_EP } from '../constants/Endpoints'
 
 export const useRoomStore = defineStore('room', {
   state: () => ({ rooms: [], connection: undefined, messages: [], joinedRoom: undefined, clientId: 0, roomId: undefined, roomPassword: undefined, page: 1, selectedImageId: undefined }),
@@ -119,6 +119,22 @@ export const useRoomStore = defineStore('room', {
         console.error('Error deleting image:', error)
       })
       this.selectedImageId = undefined
+    },
+    async deleteAllImagesInRoom(){
+      const fieldStore = useFieldStore()
+      try {
+        const room = {
+            id: this.roomId,
+            password: this.roomPassword
+        }
+        console.log('Deleting all images in room:', room)
+        await axios.delete(DELETE_ALL_IMAGES_IN_ROOM_EP, {
+            data: room
+        });
+        fieldStore.fetchRoomImages(this.roomId, this.roomPassword);
+      } catch (error) {
+          console.error('Error deleting all images:', error);
+      }
     }
 }
 })

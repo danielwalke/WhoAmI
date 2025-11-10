@@ -5,3 +5,4 @@ export const POST_GET_ROOM_EP = `${SERVER_URL}/${SERVER_PREFIX}/room`
 export const POST_CREATE_ROOM_EP = `${SERVER_URL}/${SERVER_PREFIX}/create_room`
 export const POST_UPLOAD_IMAGES = `${SERVER_URL}/${SERVER_PREFIX}/upload/multiple`
 export const DELETE_IMAGE_EP = `${SERVER_URL}/${SERVER_PREFIX}/delete_image`
+export const DELETE_ALL_IMAGES_IN_ROOM_EP = `${SERVER_URL}/${SERVER_PREFIX}/delete_all_images_in_room`

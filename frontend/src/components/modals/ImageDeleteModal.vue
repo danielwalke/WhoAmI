@@ -31,17 +31,5 @@ function confirmDelete() {
 </script>
 
 <style scoped>
-.modal-actions {
-  display: flex;
-  justify-content: flex-end;
-  gap: 1rem;
-}
 
-.danger {
-  background-color: red;
-  color: white;
-  border: none;
-  padding: 0.5rem 1rem;
-  cursor: pointer;
-}
 </style>

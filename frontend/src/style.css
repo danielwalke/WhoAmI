@@ -21,3 +21,17 @@ h3{
 .warning{
     @apply bg-yellow-500 text-white p-4 rounded-md transition-all ease-in-out animate-pulse
 }
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+}
+
+.danger {
+  background-color: red;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+}
