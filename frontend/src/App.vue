@@ -2,6 +2,7 @@
   <div class="flex flex-col h-screen w-full">
     <main class="flex-1 overflow-hidden flex justify-center items-center">
       <RouterView />
+      <ModalContainer />
     </main>
 
     <footer class="h-16 w-full  ">
@@ -23,6 +24,7 @@
 import LeaveRoom from '@/components/room/LeaveRoom.vue';
 import { useRoomStore } from './stores/roomStore';  
 import { computed } from 'vue';
+import ModalContainer from './components/modals/ModalContainer.vue';
 
 const roomStore = useRoomStore();
 const hasConnection = computed(() => roomStore.getConnection !== undefined);

@@ -82,11 +82,13 @@
 <script setup>
 import { ref, computed } from 'vue'
 import { useFieldStore } from '@/stores/FieldStore.js'
-
+import { useModalStore } from '@/stores/ModalStore.js'
 import ClearInput from './ClearInput.vue'
 import TrashIcon from '@/components/icons/TrashIcon.vue'
+import ImageDeleteModal from '../modals/ImageDeleteModal.vue'
 
 const fieldStore = useFieldStore()
+const modalStore = useModalStore()
 const images = computed(() => fieldStore.getCards)
 const fileInput = ref(null)
 const isDragging = ref(false)
@@ -113,19 +115,23 @@ const processFiles = (files) => {
   }
 }
 
+
 const removeImage = (id) => {
-  const index = images.value.findIndex((img) => img.id === id)
-  if (index === -1) return
+  function deleteImage(){
+      const index = images.value.findIndex((img) => img.id === id)
+      if (index === -1) return
 
-  URL.revokeObjectURL(images.value[index].url)
-  images.value.splice(index, 1)
-  fieldStore.deleteCard(id)
+      URL.revokeObjectURL(images.value[index].url)
+      images.value.splice(index, 1)
+      fieldStore.deleteCard(id)
 
-  if (currentIndex.value >= images.value.length && images.value.length > 0) {
-    currentIndex.value = images.value.length - 1
-  } else if (images.value.length === 0) {
-    currentIndex.value = 0
+      if (currentIndex.value >= images.value.length && images.value.length > 0) {
+        currentIndex.value = images.value.length - 1
+      } else if (images.value.length === 0) {
+        currentIndex.value = 0
+      }
   }
+  modalStore.openModal(ImageDeleteModal, { callbackFun: deleteImage })
 }
 
 const onDrop = (event) => {
