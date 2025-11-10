@@ -83,11 +83,13 @@
 import { ref, computed } from 'vue'
 import { useFieldStore } from '@/stores/FieldStore.js'
 import { useModalStore } from '@/stores/ModalStore.js'
+import { useRoomStore } from '@/stores/RoomStore.js'
 import ClearInput from './ClearInput.vue'
 import TrashIcon from '@/components/icons/TrashIcon.vue'
 import ImageDeleteModal from '../modals/ImageDeleteModal.vue'
 
 const fieldStore = useFieldStore()
+const roomStore = useRoomStore()
 const modalStore = useModalStore()
 const images = computed(() => fieldStore.getCards)
 const fileInput = ref(null)
@@ -117,6 +119,7 @@ const processFiles = (files) => {
 
 
 const removeImage = (id) => {
+  roomStore.setSelectedImageId(id)
   function deleteImage(){
       const index = images.value.findIndex((img) => img.id === id)
       if (index === -1) return
@@ -130,6 +133,10 @@ const removeImage = (id) => {
       } else if (images.value.length === 0) {
         currentIndex.value = 0
       }
+  }
+  if(roomStore.getConnection === undefined) {
+    deleteImage()
+    return
   }
   modalStore.openModal(ImageDeleteModal, { callbackFun: deleteImage })
 }

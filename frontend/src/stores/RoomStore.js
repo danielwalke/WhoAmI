@@ -3,10 +3,10 @@ import { SERVER_PREFIX } from '../constants/Server'
 import { SERVER_URL, WEBSOCKET_URL } from '../constants/Server'
 import axios from 'axios'
 import { useFieldStore } from './FieldStore'
-import { GET_GET_ROOMS_EP, POST_CREATE_ROOM_EP, POST_GET_ROOM_EP } from '../constants/Endpoints'
+import { GET_GET_ROOMS_EP, POST_CREATE_ROOM_EP, POST_GET_ROOM_EP, DELETE_IMAGE_EP } from '../constants/Endpoints'
 
 export const useRoomStore = defineStore('room', {
-  state: () => ({ rooms: [], connection: undefined, messages: [], joinedRoom: undefined, clientId: 0, roomId: undefined, roomPassword: undefined, page: 1 }),
+  state: () => ({ rooms: [], connection: undefined, messages: [], joinedRoom: undefined, clientId: 0, roomId: undefined, roomPassword: undefined, page: 1, selectedImageId: undefined }),
   getters: {
     getRooms: (state) => state.rooms,
     getConnection: (state) => state.connection,
@@ -22,7 +22,8 @@ export const useRoomStore = defineStore('room', {
     getClientId: (state) => state.clientId,
     getRoomId: (state) => state.roomId,
     getRoomPassword: (state) => state.roomPassword,
-    getPage: (state) => state.page
+    getPage: (state) => state.page,
+    getSelectedImageId: (state) => state.selectedImageId
   },
   actions: {
     setPage(newPage){
@@ -100,6 +101,24 @@ export const useRoomStore = defineStore('room', {
       }).catch(error => {
         console.error('Error fetching rooms:', error);
       })
+    },
+    setSelectedImageId(imageId){
+      this.selectedImageId = imageId
+    },
+    deleteSelectedImage(){
+      axios.delete(DELETE_IMAGE_EP, {
+        data: {
+          image: { id: this.selectedImageId },
+          room: { id: this.roomId, password: this.roomPassword }
+        }
+      }).then(response => { 
+        console.log('Image deleted:', response.data)
+        const fieldStore = useFieldStore()
+        fieldStore.fetchRoomImages(this.roomId, this.roomPassword)
+      }).catch(error => {
+        console.error('Error deleting image:', error)
+      })
+      this.selectedImageId = undefined
     }
 }
 })

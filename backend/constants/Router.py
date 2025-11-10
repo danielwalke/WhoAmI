@@ -19,3 +19,4 @@ WEBSOCKET_ROUTE = "/ws/{room_id}/{room_password}/{client_id}/{client_name}"
 
 ## Image routes
 IMAGE_ROUTE = "/get_images"
+DELETE_IMAGE_ROUTE = "/delete_image"

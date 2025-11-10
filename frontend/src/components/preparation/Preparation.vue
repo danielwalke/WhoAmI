@@ -7,11 +7,13 @@
                     <CreateRoom />
                 </div>
                 <div class="flex flex-col justify-center items-center pb-2 lg:pb-4" v-if="page==2">
+                    <WarningMissingRooms/>
                     <JoinRoom />
                 </div>
                 
                 <div class="flex flex-col justify-center items-center" v-if="page==3">
                     <h3>Create your own cards</h3>
+                    <WarningMissingConnection/>
                     <CardSelection/>
                     <Input/>
                 </div>
@@ -51,7 +53,8 @@ import { useFieldStore } from "../../stores/FieldStore";
 import UploadJSON from "@/assets/lottie_files/Upload.json"
 import DefaultCards from '@/components/input/DefaultCards.vue';
 import CardSelection from '../input/CardSelection.vue';
-
+import WarningMissingConnection from '../room/WarningMissingConnection.vue';
+import WarningMissingRooms from '../room/WarningMissingRooms.vue';
 
 const roomStore = useRoomStore();
 const fieldStore = useFieldStore()

@@ -17,3 +17,7 @@ h2{
 h3{
     @apply font-semibold text-xl text-white text-center
 }
+
+.warning{
+    @apply bg-yellow-500 text-white p-4 rounded-md transition-all ease-in-out animate-pulse
+}

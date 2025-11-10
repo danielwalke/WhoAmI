@@ -11,7 +11,9 @@
 
 <script setup>
 import { useModalStore } from '@/stores/ModalStore.js';
+import { useRoomStore } from '@/stores/RoomStore.js';
 const store = useModalStore();
+const roomStore = useRoomStore();
 
 const props = defineProps({
     callbackFun: {
@@ -21,8 +23,9 @@ const props = defineProps({
 });
 
 function confirmDelete() {
-    // Add your delete logic here
+    
     props.callbackFun();
+    roomStore.deleteSelectedImage();
     store.closeModal();
 }
 </script>
