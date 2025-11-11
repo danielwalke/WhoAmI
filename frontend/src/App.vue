@@ -7,10 +7,10 @@
 
     <footer class="h-16 w-full  ">
       <div class="flex justify-center gap-3 lg:gap-16 flex-1">
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/prepare">Prepare</RouterLink>
-        <RouterLink to="/game">Game</RouterLink>
-        <RouterLink v-if="hasConnection" to="/chat">Chat</RouterLink>
+        <RouterLink :to="ROUTE_PREFIX+'/'">Home</RouterLink>
+        <RouterLink :to="ROUTE_PREFIX+'/prepare'">Prepare</RouterLink>
+        <RouterLink :to="ROUTE_PREFIX+'/game'">Game</RouterLink>
+        <RouterLink v-if="hasConnection" :to="ROUTE_PREFIX+'/chat'">Chat</RouterLink>
       </div>
       
       <div class="text-white" >
@@ -25,6 +25,7 @@ import LeaveRoom from '@/components/room/LeaveRoom.vue';
 import { useRoomStore } from './stores/roomStore';  
 import { computed } from 'vue';
 import ModalContainer from './components/modals/ModalContainer.vue';
+import { ROUTE_PREFIX } from './router/Routes';
 
 const roomStore = useRoomStore();
 const hasConnection = computed(() => roomStore.getConnection !== undefined);

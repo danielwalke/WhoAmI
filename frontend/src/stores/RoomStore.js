@@ -4,6 +4,7 @@ import { SERVER_URL, WEBSOCKET_URL } from '../constants/Server'
 import axios from 'axios'
 import { useFieldStore } from './FieldStore'
 import { GET_GET_ROOMS_EP, POST_CREATE_ROOM_EP, POST_GET_ROOM_EP, DELETE_IMAGE_EP, DELETE_ALL_IMAGES_IN_ROOM_EP } from '../constants/Endpoints'
+import { ROUTE_PREFIX } from '../router/Routes.js'
 
 export const useRoomStore = defineStore('room', {
   state: () => ({ rooms: [], 
@@ -124,7 +125,7 @@ export const useRoomStore = defineStore('room', {
         this.joinRoomError = undefined
         this.createRoomError = undefined
         this.setPage(2)
-        router.push('/prepare')
+        router.push(ROUTE_PREFIX+'/prepare')
       }
     },
     fetchRooms() {

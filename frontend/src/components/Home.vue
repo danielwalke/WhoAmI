@@ -60,7 +60,7 @@
           </p>
           <button
             class="bg-sky-600 text-white font-bold py-3 px-8 rounded-full hover:bg-sky-700 transition duration-300 shadow-lg text-lg"
-            @click="$router.push('/input')"
+            @click="$router.push('/whoisit/prepare')"
           >
             PLAY NOW
           </button>
