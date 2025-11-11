@@ -5,6 +5,7 @@
             <Roomname v-model:roomName="roomName" />
             <Password v-model:roomPassword="roomPassword" />
             <button :disabled="roomPassword.length < 6 || roomName.length < 3" class="bg-sky-600 text-white p-4 rounded-md hover:scale-105" type="submit" @click="createRoom">Create Room</button>
+            <span v-if="createRoomError" class="text-red-500 text-sm">{{ createRoomError }}</span>
         </div>
         <div>
             <Vue3Lottie :animationData="HomeJSON"  v-if="triggerAnimation" />
@@ -13,7 +14,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { useRoomStore } from '../../stores/RoomStore'
 import HomeJSON from "@/assets/lottie_files/Home.json"
 import Password from '../utils/Password.vue'
@@ -23,17 +24,12 @@ const roomName = ref('')
 const roomPassword = ref('')
 
 const roomStore = useRoomStore()    
-const triggerAnimation = ref(false)
+const triggerAnimation = computed(() => roomStore.getTriggerAnimation)
+const createRoomError = computed(() => roomStore.getCreateRoomError)
 
 function createRoom() {
     console.log(`Creating room: ${roomName.value} with password: ${roomPassword.value}`)
-    triggerAnimation.value = true
-    setTimeout(()=>{
-        triggerAnimation.value = false
-        roomStore.setPage(2)
-    }, 3000)
-    roomStore.addRoom(roomName.value, roomPassword.value)
-    
+    roomStore.addRoom(roomName.value, roomPassword.value)    
 }
 
 </script>

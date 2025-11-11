@@ -17,6 +17,8 @@ router = APIRouter(
 
 @router.post(CREATE_ROOM_ROUTE)
 def create_room(room:Room, session: SessionDep):
+    if session.exec(select(Room).where(Room.name == room.name)).first():
+        raise HTTPException(status_code=400, detail=f"Room with name {room.name} already exists")
     salt = bcrypt.gensalt()
     hashed = bcrypt.hashpw(room.password.encode('utf-8'), salt)
     room.password = hashed

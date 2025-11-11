@@ -6,7 +6,18 @@ import { useFieldStore } from './FieldStore'
 import { GET_GET_ROOMS_EP, POST_CREATE_ROOM_EP, POST_GET_ROOM_EP, DELETE_IMAGE_EP, DELETE_ALL_IMAGES_IN_ROOM_EP } from '../constants/Endpoints'
 
 export const useRoomStore = defineStore('room', {
-  state: () => ({ rooms: [], connection: undefined, messages: [], joinedRoom: undefined, clientId: 0, roomId: undefined, roomPassword: undefined, page: 1, selectedImageId: undefined }),
+  state: () => ({ rooms: [], 
+                connection: undefined, 
+                messages: [],
+                 joinedRoom: undefined,
+                 clientId: 0, 
+                 roomId: undefined, 
+                 roomPassword: undefined, 
+                 page: 1, 
+                 selectedImageId: undefined,
+                createRoomError: undefined,
+                triggerAnimation: false
+              }),
   getters: {
     getRooms: (state) => state.rooms,
     getConnection: (state) => state.connection,
@@ -23,7 +34,9 @@ export const useRoomStore = defineStore('room', {
     getRoomId: (state) => state.roomId,
     getRoomPassword: (state) => state.roomPassword,
     getPage: (state) => state.page,
-    getSelectedImageId: (state) => state.selectedImageId
+    getSelectedImageId: (state) => state.selectedImageId,
+    getCreateRoomError: (state) => state.createRoomError,
+    getTriggerAnimation: (state) => state.triggerAnimation
   },
   actions: {
     setPage(newPage){
@@ -35,13 +48,20 @@ export const useRoomStore = defineStore('room', {
         name: roomName,
         password: roomPassword
       }
+      this.triggerAnimation = true
       console.log('Creating room with data:', data)
       axios.post(POST_CREATE_ROOM_EP, data).then(response => {
         console.log('Room created:', response.data)
         this.fetchRooms();
+        this.setPage(2)
       }).catch(error => {
         console.error('Error creating room:', error)
-      })    
+        this.createRoomError = error.response.data["detail"];
+      }).finally(() => {  
+        setTimeout(() => {
+          this.triggerAnimation = false
+        }, 2000)
+      })
     },
     joinRoom(roomId, roomPassword, clientName){
       const fieldStore = useFieldStore()
