@@ -8,10 +8,13 @@
 import { computed } from 'vue';
 import { useRoomStore } from '../../stores/roomStore';
 
+import { useRouter } from 'vue-router';
+
 const roomStore = useRoomStore()
 
 const joinedRoom = computed(() => roomStore.getJoinedRoom);
+const router = useRouter()
 function leaveRoom() {
-    roomStore.leaveRoom()
+    roomStore.leaveRoom(router)
 }
 </script>

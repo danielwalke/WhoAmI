@@ -12,6 +12,7 @@
                 />
                 <Password v-model:roomPassword="roomPassword" v-if="roomId"/>
             <button class="bg-sky-600 p-2 text-white font-semibold rounded-md" type="submit" @click="joinRoom">Join</button>
+            <span v-if="joinRoomError" class="text-red-500 text-sm">{{ joinRoomError }}</span>
         </div>
         <div v-if="triggerAnimation">
             <Vue3Lottie :animationData="JoinJSON"  />
@@ -24,7 +25,6 @@ import { Vue3Lottie } from 'vue3-lottie'
 import { computed, ref } from 'vue';
 import Autocomplete from '../utils/Autocomplete.vue';
 import { useRoomStore } from '../../stores/roomStore';
-import { useRouter } from 'vue-router';
 import JoinJSON from "@/assets/lottie_files/Join.json"
 import Password from '../utils/Password.vue';
 import { nextTick } from 'vue'
@@ -36,7 +36,8 @@ const rooms = computed(() => roomStore.rooms);
 const roomPassword = ref("test");
 const roomId = ref(undefined);
 const clientName = ref("Peter");
-const triggerAnimation = ref(false)
+const triggerAnimation = computed(() => roomStore.getTriggerAnimation);
+const joinRoomError = computed(() => roomStore.getJoinRoomError);
 
 function submitRoom(submittedRoom) {
     roomId.value = submittedRoom.id;
@@ -44,14 +45,10 @@ function submitRoom(submittedRoom) {
 
 async function joinRoom(e) {
     e.preventDefault()
-    triggerAnimation.value = true
     await nextTick()
     
     roomStore.joinRoom(roomId.value, roomPassword.value, clientName.value);
-    setTimeout(()=>{
-        triggerAnimation.value = false
-        roomStore.setPage(3)
-    }, 3000)
+
 }
 
 

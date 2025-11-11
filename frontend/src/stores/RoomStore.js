@@ -16,6 +16,7 @@ export const useRoomStore = defineStore('room', {
                  page: 1, 
                  selectedImageId: undefined,
                 createRoomError: undefined,
+                joinRoomError: undefined,
                 triggerAnimation: false
               }),
   getters: {
@@ -36,7 +37,8 @@ export const useRoomStore = defineStore('room', {
     getPage: (state) => state.page,
     getSelectedImageId: (state) => state.selectedImageId,
     getCreateRoomError: (state) => state.createRoomError,
-    getTriggerAnimation: (state) => state.triggerAnimation
+    getTriggerAnimation: (state) => state.triggerAnimation,
+    getJoinRoomError: (state) => state.joinRoomError
   },
   actions: {
     setPage(newPage){
@@ -54,6 +56,7 @@ export const useRoomStore = defineStore('room', {
         console.log('Room created:', response.data)
         this.fetchRooms();
         this.setPage(2)
+        this.createRoomError = undefined;
       }).catch(error => {
         console.error('Error creating room:', error)
         this.createRoomError = error.response.data["detail"];
@@ -64,6 +67,7 @@ export const useRoomStore = defineStore('room', {
       })
     },
     joinRoom(roomId, roomPassword, clientName){
+      this.triggerAnimation = true
       const fieldStore = useFieldStore()
       this.clientId = crypto.randomUUID();
       this.roomId = roomId
@@ -79,7 +83,8 @@ export const useRoomStore = defineStore('room', {
           fieldStore.fetchRoomImages(roomId, roomPassword)
           this.connection.onopen = (event) => {
             console.log(`Successfully connected ${this.clientId} to WebSocket server`);
-            console.log(roomId, roomPassword)
+            this.setPage(3)
+            this.joinRoomError = undefined
             
           };
 
@@ -98,10 +103,17 @@ export const useRoomStore = defineStore('room', {
           };
       }).catch(error => {
         console.error('Error joining room:', error)
-          alert('Error joining room: ' + error.response.data["detail"]);
-      })      
+        this.joinRoomError = error.response.data["detail"];
+        this.connection = undefined;
+        this.roomId = undefined
+        this.roomPassword = undefined
+      }).finally(() => {
+        setTimeout(() => {
+          this.triggerAnimation = false
+        }, 2000)
+      })    
     },
-    leaveRoom(){
+    leaveRoom(router){
       if (this.connection) {
         this.joinedRoom = undefined;
         this.connection.close();
@@ -109,6 +121,10 @@ export const useRoomStore = defineStore('room', {
         this.messages = []
         this.roomId = undefined
         this.roomPassword = undefined
+        this.joinRoomError = undefined
+        this.createRoomError = undefined
+        this.setPage(2)
+        router.push('/prepare')
       }
     },
     fetchRooms() {
