@@ -10,7 +10,7 @@
 </template>
 <script setup>
 
-import { useModalStore } from '@/stores/modalStore';
+import { useModalStore } from '@/stores/ModalStore.js';
 import { useRoomStore } from '@/stores/RoomStore.js';
 
 const store = useModalStore();
