@@ -36,6 +36,6 @@ footer {
 }
 
 footer a {
-  @apply lg:font-semibold lg:text-lg cursor-pointer hover:scale-110 transition-transform ease-in-out text-white hover:font-bold; 
+  @apply lg:font-semibold lg:text-lg cursor-pointer hover:scale-110 transition-transform ease-in-out text-white hover:font-bold active:font-bold focus:font-bold focus:scale-110; 
 }
 </style>
