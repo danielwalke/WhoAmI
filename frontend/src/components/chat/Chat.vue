@@ -28,7 +28,7 @@
 
 <script setup>
 import { ref, onMounted, onUnmounted, computed } from 'vue';
-import { useRoomStore } from '../../stores/roomStore';
+import { useRoomStore } from '../../stores/RoomStore.js';
 
 const roomStore = useRoomStore();
 const message_obj = computed(() => roomStore.messages);

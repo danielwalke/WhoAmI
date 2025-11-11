@@ -15,7 +15,7 @@
 
 <script setup>
 import { computed, ref } from 'vue'
-import { useRoomStore } from '../../stores/RoomStore'
+import { useRoomStore } from '../../stores/RoomStore.js'
 import HomeJSON from "@/assets/lottie_files/Home.json"
 import Password from '../utils/Password.vue'
 import Roomname from '../utils/Roomname.vue'

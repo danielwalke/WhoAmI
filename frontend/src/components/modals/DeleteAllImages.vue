@@ -11,7 +11,7 @@
 <script setup>
 
 import { useModalStore } from '@/stores/modalStore';
-import { useRoomStore } from '@/stores/roomStore';
+import { useRoomStore } from '@/stores/RoomStore.js';
 
 const store = useModalStore();
 const roomStore = useRoomStore();

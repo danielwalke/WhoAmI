@@ -16,7 +16,7 @@
 <script setup>
 import CreateRoom from './CreateRoom.vue';
 import JoinRoom from './JoinRoom.vue';
-import { useRoomStore } from '../../stores/roomStore';  
+import { useRoomStore } from '../../stores/RoomStore.js';  
 import LeaveRoom from './LeaveRoom.vue';
 import { computed, onMounted } from 'vue';
 

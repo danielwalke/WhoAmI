@@ -6,7 +6,7 @@
 
 <script setup>
 import { computed } from 'vue';
-import { useRoomStore } from '../../stores/roomStore';
+import { useRoomStore } from '../../stores/RoomStore.js';
 
 import { useRouter } from 'vue-router';
 

@@ -48,7 +48,7 @@ import { Vue3Lottie } from 'vue3-lottie'
 import CreateRoom from "@/components/room/CreateRoom.vue"
 import JoinRoom from '@/components/room/JoinRoom.vue';
 import Input from '@/components/input/Input.vue';
-import { useRoomStore } from '../../stores/roomStore';  
+import { useRoomStore } from '../../stores/RoomStore.js';  
 import { computed, onMounted, ref  } from 'vue';
 import Upload from '@/components/input/Upload.vue'
 import { useFieldStore } from "../../stores/FieldStore";

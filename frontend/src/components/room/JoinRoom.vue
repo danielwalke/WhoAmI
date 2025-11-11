@@ -24,7 +24,7 @@
 import { Vue3Lottie } from 'vue3-lottie'
 import { computed, ref } from 'vue';
 import Autocomplete from '../utils/Autocomplete.vue';
-import { useRoomStore } from '../../stores/roomStore';
+import { useRoomStore } from '../../stores/RoomStore.js';
 import JoinJSON from "@/assets/lottie_files/Join.json"
 import Password from '../utils/Password.vue';
 import { nextTick } from 'vue'

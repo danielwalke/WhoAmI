@@ -8,7 +8,7 @@
 <script setup>  
 import { useFieldStore } from '@/stores/FieldStore.js'
 import { computed } from 'vue'  
-import { useRoomStore } from '../../stores/RoomStore'
+import { useRoomStore } from '../../stores/RoomStore.js'
 
 const fieldStore = useFieldStore()
 const roomStore = useRoomStore()

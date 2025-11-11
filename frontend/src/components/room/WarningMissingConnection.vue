@@ -5,7 +5,7 @@
 </template>
 <script setup>
 import { computed } from 'vue';
-import { useRoomStore } from '../../stores/RoomStore';
+import { useRoomStore } from '../../stores/RoomStore.js';
 
 const roomStore = useRoomStore();
 const hasConnection = computed(() => roomStore.getConnection !== undefined);
