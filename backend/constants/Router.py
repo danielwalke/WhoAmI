@@ -12,7 +12,7 @@ POST_GET_ROOM_ROUTE = "/room"
 
 ## Upload routes
 UPLOAD_MULTIPLE_ROUTE = "/upload/multiple"
-STATIC_FILES_ROUTE = "/static"
+STATIC_FILES_ROUTE = "/whoami/static"
 
 ## Chat routes
 WEBSOCKET_ROUTE = "/ws/{room_id}/{room_password}/{client_id}/{client_name}"
