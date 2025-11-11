@@ -75,7 +75,6 @@
         &#10095;
       </button>
     </div>
-    <ClearInput/>
   </div>
 </template>
 
@@ -84,7 +83,6 @@ import { ref, computed } from 'vue'
 import { useFieldStore } from '@/stores/FieldStore.js'
 import { useModalStore } from '@/stores/ModalStore.js'
 import { useRoomStore } from '@/stores/RoomStore.js'
-import ClearInput from './ClearInput.vue'
 import TrashIcon from '@/components/icons/TrashIcon.vue'
 import ImageDeleteModal from '../modals/ImageDeleteModal.vue'
 

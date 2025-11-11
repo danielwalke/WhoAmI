@@ -16,11 +16,8 @@
                     <WarningMissingConnection/>
                     <CardSelection/>
                     <Input/>
-                </div>
-                    
-                <div class="h-4/5 w-full" v-if="page==4">
-                    <div class="flex justify-center items-center flex-col" v-if="!triggerUploadAnimation">
-                        <h3>Upload your own cards in your room</h3>
+                    <div class="flex justify-center items-center" v-if="!triggerUploadAnimation">
+                        <ClearInput/>
                         <Upload/>
                     </div>
                     <div class="h-full" v-if="triggerUploadAnimation">
@@ -32,7 +29,7 @@
         </div>
         <div class="h-12 lg:h-16">
             <div class="flex text-white justify-center  gap-6 items-center h-12 text-xl">
-                <div v-for="page_idx in 4" :key="page_idx" @click="()=> page = page_idx" class="cursor-pointer" >
+                <div v-for="page_idx in 3" :key="page_idx" @click="()=> page = page_idx" class="cursor-pointer" >
                     <div :class="page === page_idx ? 'h-5 w-5' : 'h-3 w-3 hover:h-5 hover:w-5'" class=" bg-white rounded-full transition-all ease-in-out"></div>
                 </div>
             </div>
@@ -55,6 +52,7 @@ import DefaultCards from '@/components/input/DefaultCards.vue';
 import CardSelection from '../input/CardSelection.vue';
 import WarningMissingConnection from '../room/WarningMissingConnection.vue';
 import WarningMissingRooms from '../room/WarningMissingRooms.vue';
+import ClearInput from '../input/ClearInput.vue';
 
 const roomStore = useRoomStore();
 const fieldStore = useFieldStore()
