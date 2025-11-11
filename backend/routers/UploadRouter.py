@@ -62,7 +62,7 @@ async def upload_multiple_files(request: Request,
         try:
             with open(file_path, "wb") as buffer:
                 shutil.copyfileobj(file.file, buffer)
-            file_url = request.url_for("static", path=unique_filename)
+            file_url = request.url_for("whoami/static", path=unique_filename)
             name = file.filename
             if "." in name:
                 name = name.split(".")[0]

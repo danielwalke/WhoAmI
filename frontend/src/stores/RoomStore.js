@@ -56,7 +56,7 @@ export const useRoomStore = defineStore('room', {
       axios.post(POST_CREATE_ROOM_EP, data).then(response => {
         console.log('Room created:', response.data)
         this.fetchRooms();
-        this.setPage(2)
+        
         this.createRoomError = undefined;
       }).catch(error => {
         console.error('Error creating room:', error)
@@ -64,7 +64,9 @@ export const useRoomStore = defineStore('room', {
       }).finally(() => {  
         setTimeout(() => {
           this.triggerAnimation = false
+          this.setPage(2)
         }, 2000)
+        
       })
     },
     joinRoom(roomId, roomPassword, clientName){
