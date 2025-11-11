@@ -4,7 +4,7 @@ from fastapi import UploadFile
 class DocumentValidator:
     def __init__(self, max_size: int = 10 * 1024 * 1024):  # 10MB default
         self.max_size = max_size
-        self.allowed_extensions = {'.jpg', '.jpeg', '.png', '.gif', '.bmp', ".tiff", ".svg"}
+        self.allowed_extensions = {'.jpg', '.jpeg', '.png', '.gif', '.bmp', ".tiff", ".svg", ".webp"}
 
     async def validate_file(self, file: UploadFile) -> dict:
         """Check if the document file is valid"""
