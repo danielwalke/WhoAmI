@@ -28,11 +28,18 @@ async def upload_multiple_files(request: Request,
     """Upload multiple files with validation"""
     room = session.get(Room, room_id)
     verify_room_auth(room_password, room)
+    number_of_images_in_room = session.query(Image).filter(Image.room_id == room_id).count()
+    
     
     if len(files) > 24:  # Limit number of files
         raise HTTPException(
             status_code=400,
             detail="Too many files. Maximum 24 files allowed."
+        )
+    if number_of_images_in_room + len(files) > 24:
+        raise HTTPException(
+            status_code=400,
+            detail=f"Uploading these files would exceed the limit of 24 images per room."
         )
 
     results = []
