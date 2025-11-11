@@ -22,7 +22,7 @@
 
 <script setup>
 import LeaveRoom from '@/components/room/LeaveRoom.vue';
-import { useRoomStore } from './stores/roomStore';  
+import { useRoomStore } from './stores/RoomStore.js';  
 import { computed } from 'vue';
 import ModalContainer from './components/modals/ModalContainer.vue';
 import { ROUTE_PREFIX } from './router/Routes';
