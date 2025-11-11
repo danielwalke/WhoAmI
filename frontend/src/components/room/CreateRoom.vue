@@ -2,9 +2,9 @@
     <div class="">
         <div v-if="!triggerAnimation" class="flex justify-center flex-col items-center gap-4 p-4">
             <h3>Create a room</h3>
-            <input class="border-2 p-2 rounded-md" v-model="roomName" type="text" placeholder="Enter room name" />
-            <input class="border-2 p-2 rounded-md" v-model="roomPassword" type="password" placeholder="Enter room password" />
-            <button class="bg-sky-600 text-white p-4 rounded-md hover:scale-105" type="submit" @click="createRoom">Create Room</button>
+            <Roomname v-model:roomName="roomName" />
+            <Password v-model:roomPassword="roomPassword" />
+            <button :disabled="roomPassword.length < 6 || roomName.length < 3" class="bg-sky-600 text-white p-4 rounded-md hover:scale-105" type="submit" @click="createRoom">Create Room</button>
         </div>
         <div>
             <Vue3Lottie :animationData="HomeJSON"  v-if="triggerAnimation" />
@@ -16,9 +16,11 @@
 import { ref } from 'vue'
 import { useRoomStore } from '../../stores/RoomStore'
 import HomeJSON from "@/assets/lottie_files/Home.json"
+import Password from '../utils/Password.vue'
+import Roomname from '../utils/Roomname.vue'
 
-const roomName = ref('test')
-const roomPassword = ref('test')
+const roomName = ref('')
+const roomPassword = ref('')
 
 const roomStore = useRoomStore()    
 const triggerAnimation = ref(false)

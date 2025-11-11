@@ -1,5 +1,5 @@
 <template>
-  <div class="p-4">
+  <div class="p-4 w-full">
     <div
       :class="[
         'drop-zone border-2 border-dashed border-gray-300 rounded-lg p-10 text-center text-gray-500 cursor-pointer transition-colors duration-300',
@@ -35,7 +35,7 @@
           class="slide min-w-full box-border"
         >
           <div
-            class="h-96 w-full flex items-center justify-center bg-gray-100"
+            class="h-64 lg:h-96 w-full flex items-center justify-center bg-gray-100"
           >
             <img
               :src="image.url"

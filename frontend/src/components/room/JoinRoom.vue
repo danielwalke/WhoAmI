@@ -10,13 +10,7 @@
                     v-model="clientName"
                     placeholder="Username"
                 />
-                <input
-                    class="border-2 p-2 rounded-md"
-                    v-if="roomId"
-                    type="password"
-                    v-model="roomPassword"
-                    placeholder="Room Password"
-                />
+                <Password v-model:roomPassword="roomPassword" v-if="roomId"/>
             <button class="bg-sky-600 p-2 text-white font-semibold rounded-md" type="submit" @click="joinRoom">Join</button>
         </div>
         <div v-if="triggerAnimation">
@@ -32,6 +26,7 @@ import Autocomplete from '../utils/Autocomplete.vue';
 import { useRoomStore } from '../../stores/roomStore';
 import { useRouter } from 'vue-router';
 import JoinJSON from "@/assets/lottie_files/Join.json"
+import Password from '../utils/Password.vue';
 import { nextTick } from 'vue'
 
 const roomStore = useRoomStore();

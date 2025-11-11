@@ -1,5 +1,5 @@
 <template>
-    <div class="flex flex-col h-full bg-black/70 lg:p-4 lg:w-2/3 rounded-md p-2">
+    <div class="flex flex-col h-full bg-black/70 lg:p-4 lg:w-2/3 w-full rounded-md p-2">
         <div class="w-full flex-1 overflow-y-auto">
             <div class="h-full w-full">
                 <h2>Preparation</h2>
@@ -30,7 +30,7 @@
             </div>
             
         </div>
-        <div class="h-16">
+        <div class="h-12 lg:h-16">
             <div class="flex text-white justify-center  gap-6 items-center h-12 text-xl">
                 <div v-for="page_idx in 4" :key="page_idx" @click="()=> page = page_idx" class="cursor-pointer" >
                     <div :class="page === page_idx ? 'h-5 w-5' : 'h-3 w-3 hover:h-5 hover:w-5'" class=" bg-white rounded-full transition-all ease-in-out"></div>
