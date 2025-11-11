@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col h-screen w-full">
+  <div class="flex flex-col h-full w-full">
     <main class="flex-1 overflow-hidden flex justify-center items-center">
       <RouterView />
       <ModalContainer />
