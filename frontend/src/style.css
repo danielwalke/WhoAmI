@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 #app {
-  @apply w-screen h-screen;
+  @apply w-screen h-dvh;
 }
 
 button{
