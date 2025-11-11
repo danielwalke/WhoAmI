@@ -1,16 +1,16 @@
 <template>
-    <div class="card-scene">
-        <div class="card-inner" :class="{ 'is-flipped': card.isActive }">
+    <div class="card-scene" :class="smallCard ? 'h-40' : 'h-48'">
+        <div class="card-inner" :class="{ 'is-flipped': card.isActive || smallCard }">
             <div class="card-face card-front">
                 <div class="inactive-card-content">
-                    <div class="image"></div>
+                    <div class="image" :class="smallCard ? 'h-24' : 'h-32'"></div>
                     <div class="title" style="color: #888; font-style: italic;"></div>
                 </div>
             </div>
 
             <div class="card-face card-back">
                 <div class="active-card-content">
-                    <div class="image">
+                    <div class="image" :class="smallCard ? 'h-24' : 'h-32'">
                         <img :src="card.url" alt="Card Image" class="w-full h-full object-contain rounded-md"/>
                     </div>
                     <div class="title">{{ card.title }}</div>
@@ -26,12 +26,16 @@ defineProps({
     card: {
         type: Object,
         required: true
+    },
+    smallCard: {
+        type: Boolean,
+        default: false
     }
 })
 </script>
 <style scoped>
 .card-scene {
-    @apply cursor-pointer w-full h-48 lg:h-52;
+    @apply cursor-pointer w-full ;
 }
 
 .card-inner {
@@ -62,7 +66,7 @@ defineProps({
 }
 
 .image {
-    @apply bg-gray-300 h-32 rounded-md flex items-center justify-center p-1;
+    @apply bg-gray-300 rounded-md flex items-center justify-center p-1;
 }
 
 .title {

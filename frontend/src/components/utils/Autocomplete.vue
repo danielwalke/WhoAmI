@@ -4,7 +4,7 @@
       v-if="selectedItem"
       class="w-full px-4 py-2 bg-gray-50 border border-gray-300 rounded-lg flex justify-between items-center text-gray-900"
     >
-      <span>{{ selectedItem.name }}</span>
+      <span>{{ selectedItem[key_field] }}</span>
       <button
         @click="clearSelection"
         type="button"
@@ -31,7 +31,7 @@
       <input
         type="text"
         v-model="query"
-        placeholder="Search room..."
+        :placeholder="props.placeholder"
         class="w-full px-4 py-2 bg-gray-50 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
       />
       <div
@@ -45,7 +45,7 @@
             @mousedown.prevent="selectItem(item)"
             class="px-4 py-2 cursor-pointer hover:bg-gray-100 text-gray-800"
           >
-            {{ item.name }}
+            {{ item[props.key_field] }}
           </li>
         </ul>
       </div>
@@ -69,6 +69,10 @@ const props = defineProps({
     type: String,
     required: true,
   },
+  placeholder: {
+    type: String,
+    default: 'Search room...'
+  }
 });
 
 const query = ref('');
@@ -79,7 +83,7 @@ const filteredItems = computed(() => {
     return [];
   }
   return props.items.filter(item =>
-    item.name.toLowerCase().includes(query.value.toLowerCase())
+    item[props.key_field].toLowerCase().includes(query.value.toLowerCase())
   );
 });
 
