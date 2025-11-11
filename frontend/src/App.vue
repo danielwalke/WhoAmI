@@ -6,7 +6,7 @@
     </main>
 
     <footer class="h-16 w-full  ">
-      <div class="flex justify-center gap-2 lg:gap-16 flex-1">
+      <div class="flex justify-center gap-3 lg:gap-16 flex-1">
         <RouterLink to="/">Home</RouterLink>
         <RouterLink to="/prepare">Prepare</RouterLink>
         <RouterLink to="/game">Game</RouterLink>
@@ -35,6 +35,6 @@ footer {
 }
 
 footer a {
-  @apply font-semibold text-lg cursor-pointer hover:scale-110 transition-transform ease-in-out text-white; 
+  @apply lg:font-semibold lg:text-lg cursor-pointer hover:scale-110 transition-transform ease-in-out text-white hover:font-bold; 
 }
 </style>
