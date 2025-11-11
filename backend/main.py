@@ -26,7 +26,7 @@ app = FastAPI(redirect_slashes=False)
 app.mount(
     STATIC_FILES_ROUTE,  # The URL path
     StaticFiles(directory=UPLOAD_DIR), # The directory to serve
-    name="static"
+    name="whoami/static"
 )
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
