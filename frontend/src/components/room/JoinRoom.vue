@@ -11,7 +11,7 @@
                     placeholder="Username"
                 />
                 <Password v-model:roomPassword="roomPassword" v-if="roomId"/>
-            <button class="bg-sky-600 p-2 text-white font-semibold rounded-md" type="submit" @click="joinRoom">Join</button>
+            <button :disabled="roomId === undefined" class="bg-sky-600 p-2 text-white font-semibold rounded-md" type="submit" @click="joinRoom">Join</button>
             <span v-if="joinRoomError" class="text-red-500 text-sm">{{ joinRoomError }}</span>
         </div>
         <div v-if="triggerAnimation">
