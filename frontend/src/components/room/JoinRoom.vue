@@ -33,9 +33,9 @@ const roomStore = useRoomStore();
 
 const rooms = computed(() => roomStore.rooms);
 
-const roomPassword = ref("test");
+const roomPassword = ref("");
 const roomId = ref(undefined);
-const clientName = ref("Peter");
+const clientName = ref("");
 const triggerAnimation = computed(() => roomStore.getTriggerAnimation);
 const joinRoomError = computed(() => roomStore.getJoinRoomError);
 

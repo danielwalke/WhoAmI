@@ -1,5 +1,5 @@
 <template>
-    <div class="flex flex-col h-full bg-black/70 lg:p-4 lg:w-2/3 w-full rounded-md p-2">
+    <div class="flex flex-col h-full bg-black/70 lg:p-4 lg:w-2/3 w-full  p-2">
         <div class="w-full flex-1 overflow-y-auto">
             <div class="h-full w-full">
                 <h2>Preparation</h2>

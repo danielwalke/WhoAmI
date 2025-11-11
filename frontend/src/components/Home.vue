@@ -1,6 +1,6 @@
 <template>
   <div class="relative flex flex-col items-center justify-center h-full text-white p-6 w-full bg-black/70">
-    <div class=" overflow-y-auto">
+    <div class=" overflow-y-auto w-full lg:flex flex-col items-center justify-center select-none">
        <!-- Desktop particle background -->
     <div 
       class="absolute inset-0 -z-10"
@@ -10,8 +10,6 @@
         :options="particleOptions"
       />
     </div>
-
-    <!-- Main content box -->
     <div
   class="flex flex-col items-center justify-center lg:w-2/3 w-full bg-opacity-80  rounded-2xl lg:p-8 p-2"> 
       <div class="mb-6">
