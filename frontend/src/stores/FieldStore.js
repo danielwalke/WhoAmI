@@ -7,12 +7,13 @@ import {POST_GET_IMAGES_EP, POST_UPLOAD_IMAGES} from "../constants/Endpoints.js"
 
 
 export const useFieldStore = defineStore('field', {
-  state: () => ({ cards: cards, rawFiles: [], uploadStatus: '', triggerUploadAnimation: false }),
+  state: () => ({ cards: cards, rawFiles: [], uploadStatus: '', triggerUploadAnimation: false, uploadError: undefined}),
   getters: {
     getCards: (state) => state.cards,
     getRawFiles: (state) => state.rawFiles,
     getUploadStatus: (state) => state.uploadStatus,
-    getTriggerUploadAnimation: (state) => state.triggerUploadAnimation
+    getTriggerUploadAnimation: (state) => state.triggerUploadAnimation,
+    getUploadError: (state) => state.uploadError,
   },
   actions: {
     toggleTriggerUploadAnimation(){
@@ -68,6 +69,7 @@ export const useFieldStore = defineStore('field', {
         for(const file of this.rawFiles) {
             formData.append("files", file);
         }
+        console.warn(this.rawFiles.length + ' files to be uploaded.')
         axios.post(POST_UPLOAD_IMAGES, formData, {             
           onUploadProgress: (progressEvent) => {
             const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
@@ -75,20 +77,24 @@ export const useFieldStore = defineStore('field', {
           }
         })
         .then(response => {
-            console.log('Files uploaded successfully:', response.data);
-            setTimeout(()=>{
-              this.toggleTriggerUploadAnimation()
-            }, 1000)
-            
+            console.log('Files uploaded successfully:', response.data);            
             this.fetchRoomImages(roomId, roomPassword)
+            this.uploadStatus = 'Upload complete';
+            this.uploadError = undefined
         })
         .catch(error => {
             console.error('Error uploading files:', error);
             this.uploadStatus = `Error: ${error.response.data.detail || 'Upload failed'}`;
-        });
+            this.uploadError = error.response.data["detail"] || 'Upload failed';
+        }).finally(() => {
+            setTimeout(() => {
+              this.uploadStatus = ''
+              this.toggleTriggerUploadAnimation()
+            }, 1000)
+        })  
     },
     removeAllCards(){
-      this.cards = []
+      this.cards = this.cards.filter(card => !card.isLocalCard)
     },
     removeAllFiles(){
       this.rawFiles = []

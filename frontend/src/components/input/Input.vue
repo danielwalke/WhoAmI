@@ -90,6 +90,7 @@ const fieldStore = useFieldStore()
 const roomStore = useRoomStore()
 const modalStore = useModalStore()
 const images = computed(() => fieldStore.getCards)
+const getRawFiles = computed(() => fieldStore.getRawFiles)
 const fileInput = ref(null)
 const isDragging = ref(false)
 const currentIndex = ref(0)
@@ -109,7 +110,7 @@ const processFiles = (files) => {
       const url = URL.createObjectURL(file)
       const title = getBaseName(file.name)
 
-      const newImage = { id, url, title, isActive: true }
+      const newImage = { id, url, title, isActive: true, isLocalCard: true }
       fieldStore.addCard(newImage)
     }
   }
@@ -131,6 +132,10 @@ const removeImage = (image) => {
       } else if (images.value.length === 0) {
         currentIndex.value = 0
       }
+      console.log(getRawFiles.value);
+      
+      const filteredFiles = [...getRawFiles.value].filter((file, idx) => idx !== index)
+      fieldStore.setRawFiles(filteredFiles)
   }
   if(roomStore.getConnection === undefined || image.isLocalCard) {
     deleteImage()

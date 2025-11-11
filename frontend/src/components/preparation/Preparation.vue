@@ -16,9 +16,14 @@
                     <WarningMissingConnection/>
                     <CardSelection/>
                     <Input/>
+                    <span class="text-sm font-bold" :class="numberOfCards <= 24 ? 'text-green-600':'text-red-500' ">{{ numberOfCards }} / 24 Cards chosen</span>
+                    <span v-if="numberOfCards > 24" class="text-sm font-bold text-red-500">You need to remove {{ numberOfCards > 24 ? numberOfCards - 24 : 0 }} cards</span>
                     <div class="flex justify-center items-center" v-if="!triggerUploadAnimation">
                         <ClearInput/>
                         <Upload/>
+                    </div>
+                    <div class="flex justify-center items-center pl-2 pr-2">
+                        <span class="text-sm font-bold text-red-500" v-if="uploadError">{{ uploadError }}</span>
                     </div>
                     <div class="h-full" v-if="triggerUploadAnimation">
                         <Vue3Lottie :animationData="UploadJSON"  />
@@ -59,6 +64,8 @@ const fieldStore = useFieldStore()
 const hasRooms = computed(() => roomStore.getRooms && roomStore.getRooms.length > 0);
 const hasConnection = computed(() => roomStore.getConnection !== undefined);
 const triggerUploadAnimation = computed(()=> fieldStore.getTriggerUploadAnimation)
+const numberOfCards = computed(() => fieldStore.getCards.length);
+const uploadError = computed(() => fieldStore.getUploadError);
 
 const page = computed({
   get() {
