@@ -86,7 +86,6 @@ export const useRoomStore = defineStore('room', {
           fieldStore.fetchRoomImages(roomId, roomPassword)
           this.connection.onopen = (event) => {
             console.log(`Successfully connected ${this.clientId} to WebSocket server`);
-            this.setPage(3)
             this.joinRoomError = undefined
             
           };
@@ -113,6 +112,7 @@ export const useRoomStore = defineStore('room', {
       }).finally(() => {
         setTimeout(() => {
           this.triggerAnimation = false
+          this.setPage(3)
         }, 2000)
       })    
     },

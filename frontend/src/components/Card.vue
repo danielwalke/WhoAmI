@@ -31,7 +31,7 @@ defineProps({
 </script>
 <style scoped>
 .card-scene {
-    @apply cursor-pointer w-full h-60;
+    @apply cursor-pointer w-full h-48 lg:h-52;
 }
 
 .card-inner {
@@ -62,7 +62,7 @@ defineProps({
 }
 
 .image {
-    @apply bg-gray-300 h-32 mb-4 rounded-md flex items-center justify-center p-1;
+    @apply bg-gray-300 h-32 rounded-md flex items-center justify-center p-1;
 }
 
 .title {
