@@ -28,7 +28,7 @@
         "One face in the crowd holds the secret. Can you find it first?"
       </p>
 
-      <div class="bg-white text-gray-800 rounded-lg shadow-xl p-4 lg:p-8 max-w-2xl w-full">
+      <div class="bg-white/70 shadow-md font-semibold text-gray-800 rounded-lg shadow-xl p-4 lg:p-8 max-w-2xl w-full">
         <p class="text-base md:text-lg mb-6 leading-relaxed">
           Welcome to "Who is it?", the classic two-player mystery-face game! It's a race of logic and deduction.
           You and your opponent each have a board full of quirky characters. Your goal:
