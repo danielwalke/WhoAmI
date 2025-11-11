@@ -1,5 +1,6 @@
 <template>
     <div class="w-full h-full flex flex-col  overflow-y-auto">
+        <span v-if="cards.length === 0" class="bg-red-500 text-sm text-white rounded-md p-2 m-2 animate-pulse">Set a card deck under "Prepare"</span>
         <div
         class="grid grid-cols-2 lg:grid-cols-6 gap-x-8 gap-y-4 p-4  w-full flex-1"
         >
