@@ -21,6 +21,7 @@
                     <div class="flex justify-center items-center" v-if="!triggerUploadAnimation">
                         <ClearInput/>
                         <Upload/>
+                        <InvitationLink v-if="hasConnection"/>
                     </div>
                     <div class="flex justify-center items-center pl-2 pr-2">
                         <span class="text-sm font-bold text-red-500" v-if="uploadError">{{ uploadError }}</span>
@@ -58,6 +59,7 @@ import CardSelection from '../input/CardSelection.vue';
 import WarningMissingConnection from '../room/WarningMissingConnection.vue';
 import WarningMissingRooms from '../room/WarningMissingRooms.vue';
 import ClearInput from '../input/ClearInput.vue';
+import InvitationLink from '../invitation/InvitationLink.vue';
 
 const roomStore = useRoomStore();
 const fieldStore = useFieldStore()

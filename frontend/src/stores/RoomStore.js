@@ -18,7 +18,8 @@ export const useRoomStore = defineStore('room', {
                  selectedImageId: undefined,
                 createRoomError: undefined,
                 joinRoomError: undefined,
-                triggerAnimation: false
+                triggerAnimation: false,
+                clientName: undefined
               }),
   getters: {
     getRooms: (state) => state.rooms,
@@ -39,7 +40,8 @@ export const useRoomStore = defineStore('room', {
     getSelectedImageId: (state) => state.selectedImageId,
     getCreateRoomError: (state) => state.createRoomError,
     getTriggerAnimation: (state) => state.triggerAnimation,
-    getJoinRoomError: (state) => state.joinRoomError
+    getJoinRoomError: (state) => state.joinRoomError,
+    getClientName: (state) => state.clientName,
   },
   actions: {
     setPage(newPage){
@@ -69,15 +71,17 @@ export const useRoomStore = defineStore('room', {
         
       })
     },
-    joinRoom(roomId, roomPassword, clientName){
+    async joinRoom(roomId, roomPassword, clientName){
       this.triggerAnimation = true
       const fieldStore = useFieldStore()
       this.clientId = crypto.randomUUID();
       this.roomId = roomId
       this.roomPassword = roomPassword
+      this.clientName = clientName
+      console.log('Joining room:', roomId, 'with client ID:', this.clientId, 'as', clientName, 'using password:', roomPassword)
       const wsUrl = `${WEBSOCKET_URL}/${roomId}/${roomPassword}/${this.clientId}/${clientName}`;
       this.connection = new WebSocket(wsUrl);
-      axios.post(POST_GET_ROOM_EP, {
+      await axios.post(POST_GET_ROOM_EP, {
             "id": roomId,
             "password": roomPassword
       }).then(resp =>{
