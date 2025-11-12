@@ -12,7 +12,7 @@
               <span class="text-sm">{{ showOnlyActiveCards ? ' Showing only active cards' : ' Showing all cards'
                 }}</span>
             </div>
-            <button @click="undo" class=" text-white font-bold p-4 rounded inline-flex items-center" v-if="historyStack.length > 0">
+            <button @click="undo" class=" text-white font-bold p-2 lg:p-4 rounded-full inline-flex items-center" v-if="historyStack.length > 0">
               <ReverseIcon />
             </button>
           </div>
