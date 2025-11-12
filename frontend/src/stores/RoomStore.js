@@ -103,6 +103,10 @@ export const useRoomStore = defineStore('room', {
           this.connection.onerror = (error) => {
             console.error('WebSocket Error:', error);
           };
+          setTimeout(() => {
+          this.triggerAnimation = false
+          this.setPage(3)
+        }, 2000)
       }).catch(error => {
         console.error('Error joining room:', error)
         this.joinRoomError = error.response.data["detail"];
@@ -110,10 +114,7 @@ export const useRoomStore = defineStore('room', {
         this.roomId = undefined
         this.roomPassword = undefined
       }).finally(() => {
-        setTimeout(() => {
-          this.triggerAnimation = false
-          this.setPage(3)
-        }, 2000)
+        
       })    
     },
     leaveRoom(router){
