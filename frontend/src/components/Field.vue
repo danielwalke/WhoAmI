@@ -12,6 +12,9 @@
               <span class="text-sm">{{ showOnlyActiveCards ? ' Showing only active cards' : ' Showing all cards'
                 }}</span>
             </div>
+            <button @click="undo" class=" text-white font-bold p-4 rounded inline-flex items-center" v-if="historyStack.length > 0">
+              <ReverseIcon />
+            </button>
           </div>
         </div>
 
@@ -56,6 +59,7 @@ import { computed, ref, onMounted, onUnmounted } from 'vue'
 import Chat from './chat/Chat.vue'
 import Autocomplete from './utils/Autocomplete.vue'
 import Toggle from './utils/Toggle.vue'
+import ReverseIcon from './icons/ReverseIcon.vue'
 
 const fieldStore = useFieldStore()
 const roomStore = useRoomStore()
@@ -65,6 +69,7 @@ const hasConnection = computed(() => roomStore.getConnection !== undefined)
 const isExpanded = ref(false)
 const chosenCard = ref(undefined)
 const showOnlyActiveCards = ref(false)
+const historyStack = ref([])
 
 const cards = computed(() => {
   if (showOnlyActiveCards.value) {
@@ -77,8 +82,15 @@ console.log(cards.value);
 
 function changeState(cardId) {
   console.log(cardId);
-
+  historyStack.value.push(cardId)
   fieldStore.changeCardState(cardId)
+}
+
+function undo() {
+  const lastCardId = historyStack.value.pop()
+  if (lastCardId !== undefined) {
+    fieldStore.changeCardState(lastCardId)
+  }
 }
 
 function expand() {
